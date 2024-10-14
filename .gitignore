@@ -1,0 +1,6 @@
+dataset/*
+log/
+runs/
+viz/
+vis_output/
+wandb/
