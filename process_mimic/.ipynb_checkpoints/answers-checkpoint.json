@@ -1,0 +1,434 @@
+{
+    "p10169824/s50191584/55c5eec5-bac81138-4d2f57e6-4a285e42-3e234c7f.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. No"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have cardiomegaly?",
+            "answer": "The heart of the patient is located <seg>. The answer is Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have cardiomegaly at the left lower lung?",
+            "answer": "The left lower lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the heart?",
+            "answer": "The heart is located at <seg>. The heart has cardiomegaly."
+        }
+    ],
+    "p10456463/s50513193/0b3aa991-11aaa6d6-1f71d528-79d5eff4-f087c36d.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there aortic enlargements in the aorta of this patient?",
+            "answer": "The aorta is located at <seg>. No"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have aortic enlargement?",
+            "answer": "The aorta is located <seg>. The answer is Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have aortic enlargement at the left middle lung?",
+            "answer": "The left middle lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the aorta?",
+            "answer": "The aorta is located at <seg>. The aorta has aortic enlargement."
+        }
+    ],
+    "p10337061/s57517029/1bc92442-49fc29b4-5e532669-249f029b-53a04745.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. No"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have cardiomegaly?",
+            "answer": "The heart of the patient is located <seg>. The answer is Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have aortic enlargement in the heart?",
+            "answer": "The heart is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the aorta?",
+            "answer": "The aorta is located at <seg>. The aorta has aortic enlargement."
+        }
+    ],
+    "p10337061/s50786287/9b251ce3-d647181e-eecfb059-8a07aed0-e8049c67.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there aortic enlargements in the aorta of this patient?",
+            "answer": "The aorta is located at <seg>. No"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have aortic enlargement?",
+            "answer": "The aorta is located <seg>. The answer is Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have aortic enlargement at the left middle lung?",
+            "answer": "The left middle lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the aorta?",
+            "answer": "The aorta is located at <seg>. The aorta has aortic enlargement."
+        }
+    ],
+    "p10337061/s57852566/96c382dd-b26267a4-2149445b-e5be3f36-33794168.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. No"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have cardiomegaly?",
+            "answer": "The heart of the patient is located <seg>. The answer is Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have cardiomegaly at the aorta?",
+            "answer": "The aorta is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the heart?",
+            "answer": "The heart is located at <seg>. The heart has cardiomegaly."
+        }
+    ],
+    "p10105017/s54150425/c155f197-6e05000b-ecc948bc-e4bbc61c-de1b1356.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there any nodules or masses in the right middle lung of this patient?",
+            "answer": "The right middle lung is located at <seg>. Yes"
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have a nodule or mass in the left lower lung?",
+            "answer": "The left lower lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the aorta?",
+            "answer": "The aorta is located at <seg>. The aorta has aortic enlargement."
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have aortic enlargement?",
+            "answer": "The aorta is located <seg>. The answer is Yes."
+        }
+    ],
+    "p10159535/s59202494/5479c36d-a0f36ec5-fa41c6a0-bf149e40-a1e7f0f3.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. No"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have aortic enlargement?",
+            "answer": "The aorta is located <seg>. Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have cardiomegaly in the left middle lung?",
+            "answer": "The left middle lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the aorta?",
+            "answer": "The aorta is located at <seg>. The aorta has aortic enlargement."
+        }
+    ],
+    "p10159535/s56538571/c1aa4fdf-fae29b36-06540534-d110e3fb-ab5253e1.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. No"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have aortic enlargement?",
+            "answer": "The aorta is located <seg>. Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have cardiomegaly in the left middle lung?",
+            "answer": "The left middle lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the aorta?",
+            "answer": "The aorta is located at <seg>. The aorta has aortic enlargement."
+        }
+    ],
+    "p10814905/s55707552/e1e25be8-4f2914b7-b9ea3462-703fd9fa-dedb43f5.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. No"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have cardiomegaly?",
+            "answer": "The heart of the patient is located <seg>. The answer is Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have pneumonia at the left upper lung?",
+            "answer": "The left upper lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the heart?",
+            "answer": "The heart is located at <seg>. The heart has cardiomegaly."
+        }
+    ],
+    "p10814905/s54343060/483801cc-4521cd1f-b25d49ad-90b75b6e-fe5245c6.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. No"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have cardiomegaly?",
+            "answer": "The heart of the patient is located <seg>. The answer is Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have cardiomegaly at the left middle lung?",
+            "answer": "The left middle lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the heart?",
+            "answer": "The heart is located at <seg>. The heart has cardiomegaly."
+        }
+    ],
+    "p10814905/s50962962/d0ad660e-39c0da99-c4dfc821-276f528c-71d5549c.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. No"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have cardiomegaly?",
+            "answer": "The heart of the patient is located <seg>. The answer is Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have pneumonia at the left middle lung?",
+            "answer": "The left middle lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the heart?",
+            "answer": "The heart is located at <seg>. The heart has cardiomegaly."
+        }
+    ],
+    "p10814905/s50283484/677b81b1-68ed5e20-6d1f4dd8-0f67e4ab-3a18cbf2.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. No"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have cardiomegaly?",
+            "answer": "The heart of the patient is located <seg>. The answer is Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have cardiomegaly at the left lower lung?",
+            "answer": "The left lower lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the heart?",
+            "answer": "The heart is located at <seg>. The heart has cardiomegaly."
+        }
+    ],
+    "p10814905/s50391253/d5dcb653-4bd48d56-77e4078e-5b6a98e4-21fb6a5c.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. Yes"
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have lung opacity at the right upper lung?",
+            "answer": "The right upper lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the left middle lung?",
+            "answer": "The left middle lung is located at <seg>. The left middle lung has lung opacity."
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have cardiomegaly?",
+            "answer": "The heart of the patient is located <seg>. The answer is Yes."
+        }
+    ],
+    "p10814905/s59157795/8846ae59-0ce92bd4-615f7dea-c94e4f06-a6bb73ce.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. Yes"
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have lung opacity at the right upper lung?",
+            "answer": "The right upper lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the left middle lung?",
+            "answer": "The left middle lung is located at <seg>. The left middle lung has lung opacity."
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have cardiomegaly?",
+            "answer": "The heart of the patient is located <seg>. The answer is Yes."
+        }
+    ],
+    "p10814905/s56856532/93d79be4-3475b77e-89e28488-eccc4eeb-34667e1c.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there cardiomegaly in the heart of this patient?",
+            "answer": "The heart is located at <seg>. Yes"
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have lung opacity at the right upper lung?",
+            "answer": "The right upper lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have aortic enlargement?",
+            "answer": "The aorta is located at <seg>. Yes."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the left middle lung?",
+            "answer": "The left middle lung is located at <seg>. The left middle lung has lung opacity."
+        }
+    ],
+    "p10814905/s57568893/7a20a338-f7410788-bf8fffe8-39db6f23-919415eb.jpg": [
+        {
+            "type": "adversarial_disease_only",
+            "question": "Does the patient have pneumonia",
+            "answer": "No"
+        },
+        {
+            "type": "anatomy_disease_yes_no_findings",
+            "question": "Are there pulmonary fibrosis in the left middle lung of this patient?",
+            "answer": "The left middle lung is located at <seg>. Yes"
+        },
+        {
+            "type": "yes_no_findings",
+            "question": "Does the patient have pulmonary fibrosis?",
+            "answer": "The left middle lung is located <seg>. The answer is Yes."
+        },
+        {
+            "type": "adversarial_disease_anatomy",
+            "question": "Does the patient have pulmonary fibrosis in the right upper lung?",
+            "answer": "The right upper lung is located at <seg>. The answer is No."
+        },
+        {
+            "type": "anatomy_disease_open_findings",
+            "question": "Are there anything wrong with the left middle lung?",
+            "answer": "The left middle lung is located at <seg>. The left middle lung has pulmonary fibrosis."
+        }
+    ]
+}

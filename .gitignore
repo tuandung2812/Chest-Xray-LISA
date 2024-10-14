@@ -4,3 +4,4 @@ runs/
 viz/
 vis_output/
 wandb/
+**/ipynb_checkpoints/
