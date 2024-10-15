@@ -187,6 +187,7 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
     ):
         # Obtain the image embeddings using the SAM image encoder
         # images DIM = (B, 3C, 1024, 1024)
+        # if...
         image_embeddings = self.get_visual_embs(images) # DIM [B, 256, 64, 64]
         batch_size = image_embeddings.shape[0]
         assert batch_size == len(offset) - 1    
