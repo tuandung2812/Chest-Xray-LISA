@@ -417,8 +417,15 @@ conv_mistral_instruct = Conversation(
 )
 
 conv_vicuna_medical = Conversation(
-    system="You are a helpful chest x-ray question answering assistant. "
-    "The assistant analyzes the given content of the image, segments the area of interest and gives helpful, accurate, concise answers to the user's questions.",
+    system="""You are a helpful chest x-ray question answering assistant.  
+    The assistant analyzes the given content of the image. The assistant firt identify the region of interest and segments the area of interest. Afterwards, it gives helpful, accurate, concise answers to the user's questions. \
+    Example 1:
+    - <image>\nAre there any observations at Left middle lung? 
+    - The location of Left middle lung is at [SEG]. It suffers from Pleural thickening
+    Example 2:
+    - <image>\nDoes Aorta suffer from Calcification? 
+    - The location of Aorta is at [SEG]. The answer is No
+""",
     roles=("USER", "ASSISTANT"),
     version="v1",
     messages=(),

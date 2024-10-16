@@ -143,6 +143,7 @@ class VinDrDataset(torch.utils.data.Dataset):
         num_classes_per_sample: int = 3,
         exclude_val=False,
         split="train",
+        text_only = False
     ):
         self.exclude_val = exclude_val
         self.base_dir = base_dir
@@ -159,6 +160,7 @@ class VinDrDataset(torch.utils.data.Dataset):
         # vindr_seg_data=vindr_seg_data.split("|")
         splits = split.split("_")
         self.split = split
+        self.text_only=  text_only
 
         jsons = []
         for split in splits:
@@ -224,7 +226,7 @@ class VinDrDataset(torch.utils.data.Dataset):
         # print(annotation)
         question, answer = annotation['text'], annotation['answer']        
         answer = answer.replace('<seg>','[SEG]')
-        questions = [DEFAULT_IMAGE_TOKEN + "\n" + question]
+        questions = [DEFAULT_IMAGE_TOKEN + "\n" + question + '  Please first respond with segmentation mask, then provide the answer to the question.']
         answers = [answer]
         # print(question, answer)
         
@@ -266,7 +268,8 @@ class VinDrDataset(torch.utils.data.Dataset):
             resize,
             questions,
             None,
-            inference
+            inference,
+            self.text_only
         )
 
 if __name__ == '__main__':
@@ -275,21 +278,38 @@ if __name__ == '__main__':
     output_dir = 'viz'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-        
+    IGNORE_INDEX = -100
+    IMAGE_TOKEN_INDEX = -200
+    DEFAULT_IMAGE_TOKEN = "<image>"
+    DEFAULT_IMAGE_PATCH_TOKEN = "<im_patch>"
+    DEFAULT_IM_START_TOKEN = "<im_start>"
+    DEFAULT_IM_END_TOKEN = "<im_end>"
+    IMAGE_PLACEHOLDER = "<image-placeholder>"
+
     tokenizer = transformers.AutoTokenizer.from_pretrained(
     "microsoft/llava-med-v1.5-mistral-7b",
     cache_dir=None,
     model_max_length=1024,
     padding_side="right",
     use_fast=False,)
+    tokenizer.pad_token = tokenizer.unk_token
+    num_added_tokens = tokenizer.add_tokens("[SEG]")
 
+    tokenizer.add_tokens(
+        [DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN], special_tokens=True
+    )
+
+    print(tokenizer.decode(torch.Tensor([415,  4723,
+           302, 14552,   349,   438, 28705, 32000,   842,   415,  4372,   349,
+          1770,     2])))
     dataset = VinDrDataset(base_dir='./dataset/VinDr',tokenizer=tokenizer, vision_tower="openai/clip-vit-large-patch14", split = 'test')
     alpha = 0.5
     i = 0
     for data in dataset:
-        if i == 15:
+        if i == 30:
             break
         # print(data)
+        print('conversation: ', data[3])
         img_path = data[0]
         img_id = img_path.split('/')[-1]
         mask = data[4][0]

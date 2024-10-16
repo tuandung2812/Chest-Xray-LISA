@@ -1,0 +1,6 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+/cm/local/apps/slurm/var/spool/job03577/slurm_script: line 38: ds_report: command not found
+/cm/local/apps/slurm/var/spool/job03577/slurm_script: line 39: deepspeed: command not found
+/cm/local/apps/slurm/var/spool/job03577/slurm_script: line 56: --exp_name: command not found

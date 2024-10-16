@@ -183,6 +183,7 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
         label_list: List[torch.Tensor],
         resize_list: List[tuple],
         inference: bool = False,
+        text_only: bool = False,
         **kwargs,
     ):
         # Obtain the image embeddings using the SAM image encoder
@@ -215,6 +216,7 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
 
             output_hidden_states = []
             output_logits=  []
+            output_ce_losses = []
             for i in range(n_batch):
                 start_i, end_i = i * length, min((i + 1) * length, input_ids.shape[0])
                 # inference using llava
@@ -222,6 +224,7 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
                     images=images_clip_extend[: end_i - start_i],
                     attention_mask=attention_masks[start_i:end_i],
                     input_ids=input_ids[start_i:end_i],
+                    labels = labels[start_i:end_i],
                     output_hidden_states=True,
                 )
                 # print(output_i.logits.shape)
@@ -229,19 +232,28 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
                 # For llava mistral, we manually need to get the final hidden states
                 output_hidden_states.append(output_i.hidden_states[-1])
                 output_logits.append(output_i.logits)
+                output_ce_losses.append(output_i.loss.item())
+                print('output_i ',output_i.loss)
                 torch.cuda.empty_cache()
 
             output_hidden_states_list = []
             output_hidden_states_level = torch.cat(output_hidden_states, dim=0)
             output_hidden_states_list.append(output_hidden_states_level)
             output_hidden_states = output_hidden_states_list
-            
+
+            # output_ce_losses_list = []
+            # output_ce_losses_level = torch.cat(output_ce_losses, dim=0)
+            # output_ce_losses_list.append(output_ce_losses_level)
+            # output_ce_losses = output_ce_losses_list
+            output_ce_losses = torch.Tensor(output_ce_losses)
+            print('CE Loss: ',output_ce_losses, output_ce_losses.shape)
+
             output_logits_list = []
             output_logits_level = torch.cat(output_logits, dim=0)
             output_logits = output_logits_level[0]
-            print(output_logits.shape)
+            # print(output_logits.shape)
             output_ids  = torch.argmax(output_logits, dim=-1)
-            print('output_ids: ', output_ids.shape, output_ids)
+            # print('output_ids: ', output_ids.shape, output_ids)
             output = None
 
         else:
@@ -266,6 +278,24 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
                 output_hidden_states=True,
             )
             output_hidden_states = output.hidden_states
+        
+        if text_only:
+
+            if inference:
+                return {
+                    'ce_loss': output_ce_losses,
+                    'output_logits': output_logits,
+                    'output_ids': output_ids
+                }
+            else:
+                model_output = output
+                ce_loss = model_output.loss
+                # ce_loss = ce_loss * self.ce_loss_weight
+                loss = ce_loss
+
+                return {
+                    "loss": loss,
+                    "ce_loss": ce_loss}
 
         hidden_states = []
 
