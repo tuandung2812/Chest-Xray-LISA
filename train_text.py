@@ -290,7 +290,7 @@ def main(args):
 #     else:
 #         val_dataset = None
 #         print(f"Training with {len(train_dataset)} examples.")
-
+    print('text only is:', args.text_only)
     train_dataset = VinDrDataset(base_dir='./dataset/VinDr',
                                  tokenizer=tokenizer,
                                  vision_tower=args.vision_tower,
@@ -435,7 +435,9 @@ def main(args):
         )
 
         if args.no_eval == False:
-            giou, ciou = validate(val_loader, model_engine, epoch, writer, args, tokenizer)
+            # giou, ciou = validate(val_loader, model_engine, epoch, writer, args, tokenizer)
+            giou, ciou = validate(val_loader, model, epoch, writer, args, tokenizer)
+
             is_best = giou > best_score
             best_score = max(giou, best_score)
             cur_ciou = ciou if is_best else cur_ciou
@@ -493,44 +495,37 @@ def train(
     # switch to train mode
     model.train()
     end = time.time()
-    print('steps per epoch: ', args.steps_per_epoch)
-    for global_step in tqdm.tqdm(range(args.steps_per_epoch)):
-        for i in range(args.grad_accumulation_steps):
-            try:
-                input_dict = next(train_iter)
-            except:
-                train_iter = iter(train_loader)
-                input_dict = next(train_iter)
-
+    # print('steps per epoch: ', args.steps_per_epoch)
+    for global_step, input_dict in enumerate(train_loader):
+        if global_step >  args.steps_per_epoch:
+            break
+        else:
             data_time.update(time.time() - end)
             input_dict = dict_to_cuda(input_dict)
-
+            print('input_dict text only: ', input_dict['text_only'])
             if args.precision == "fp16":
-                input_dict["images"] = input_dict["images"].half()
-                input_dict["images_clip"] = input_dict["images_clip"].half()
+                    input_dict["images"] = input_dict["images"].half()
+                    input_dict["images_clip"] = input_dict["images_clip"].half()
             elif args.precision == "bf16":
                 input_dict["images"] = input_dict["images"].bfloat16()
                 input_dict["images_clip"] = input_dict["images_clip"].bfloat16()
             else:
                 input_dict["images"] = input_dict["images"].float()
                 input_dict["images_clip"] = input_dict["images_clip"].float()
-            print('input dict: ', input_dict['images_clip'].shape, input_dict['inference'])
             output_dict = model(**input_dict)
+            print(output_dict.keys())
 
             loss = output_dict["loss"]
             ce_loss = output_dict["ce_loss"]
-            
+
             if not args.text_only:
                 mask_bce_loss = output_dict["mask_bce_loss"]
                 mask_dice_loss = output_dict["mask_dice_loss"]
                 mask_loss = output_dict["mask_loss"]
-            # else:
-            #     mask_bce_loss = mask_dice_loss = mask_loss 
-    
 
             losses.update(loss.item(), input_dict["images"].size(0))
             ce_losses.update(ce_loss.item(), input_dict["images"].size(0))
-            
+
             if not args.text_only:
                 mask_bce_losses.update(mask_bce_loss.item(), input_dict["images"].size(0))
                 mask_dice_losses.update(mask_dice_loss.item(), input_dict["images"].size(0))
@@ -538,47 +533,47 @@ def train(
             model.backward(loss)
             model.step()
 
-        # measure elapsed time
-        batch_time.update(time.time() - end)
-        end = time.time()
+            # measure elapsed time
+            batch_time.update(time.time() - end)
+            end = time.time()
 
-        # if global_step % args.print_freq == 0:
-        if args.distributed:
-            batch_time.all_reduce()
-            data_time.all_reduce()
+            # if global_step % args.print_freq == 0:
+            if args.distributed:
+                batch_time.all_reduce()
+                data_time.all_reduce()
 
-            losses.all_reduce()
-            ce_losses.all_reduce()
-            mask_bce_losses.all_reduce()
-            mask_dice_losses.all_reduce()
-            mask_losses.all_reduce()
+                losses.all_reduce()
+                ce_losses.all_reduce()
+                mask_bce_losses.all_reduce()
+                mask_dice_losses.all_reduce()
+                mask_losses.all_reduce()
 
-        if not args.disable_wandb:
-            if not args.text_only:
-                wandb.log({'train/loss': losses.avg,'train/ce_loss' :ce_losses.avg, 'train/mask_bce_loss' : mask_bce_losses.avg, 'train/mask_dice_loss': mask_dice_losses.avg, 'train/mask_loss': mask_losses.avg})
-            else:
-                wandb.log({'train/ce_loss' :ce_losses.avg})
+            if not args.disable_wandb:
+                if not args.text_only:
+                    wandb.log({'train/loss': losses.avg,'train/ce_loss' :ce_losses.avg, 'train/mask_bce_loss' : mask_bce_losses.avg, 'train/mask_dice_loss': mask_dice_losses.avg, 'train/mask_loss': mask_losses.avg})
+                else:
+                    wandb.log({'train/ce_loss' :ce_losses.avg})
 
-        if args.local_rank == 0:
-            progress.display(global_step + 1)
-            writer.add_scalar("train/loss", losses.avg, global_step)
-            writer.add_scalar("train/ce_loss", ce_losses.avg, global_step)
-            
-            if not args.text_only:
+            if args.local_rank == 0:
+                progress.display(global_step + 1)
+                writer.add_scalar("train/loss", losses.avg, global_step)
+                writer.add_scalar("train/ce_loss", ce_losses.avg, global_step)
+
+                if not args.text_only:
+                    writer.add_scalar(
+                        "train/mask_bce_loss", mask_bce_losses.avg, global_step
+                    )
+                    writer.add_scalar(
+                        "train/mask_dice_loss", mask_dice_losses.avg, global_step
+                    )
+                    writer.add_scalar("train/mask_loss", mask_losses.avg, global_step)
+
                 writer.add_scalar(
-                    "train/mask_bce_loss", mask_bce_losses.avg, global_step
+                    "metrics/total_secs_per_batch", batch_time.avg, global_step
                 )
                 writer.add_scalar(
-                    "train/mask_dice_loss", mask_dice_losses.avg, global_step
+                    "metrics/data_secs_per_batch", data_time.avg, global_step
                 )
-                writer.add_scalar("train/mask_loss", mask_losses.avg, global_step)
-            
-            writer.add_scalar(
-                "metrics/total_secs_per_batch", batch_time.avg, global_step
-            )
-            writer.add_scalar(
-                "metrics/data_secs_per_batch", data_time.avg, global_step
-            )
 
         batch_time.reset()
         data_time.reset()
@@ -588,27 +583,29 @@ def train(
         mask_dice_losses.reset()
         mask_losses.reset()
 
-        if global_step != 0:
-            curr_lr = scheduler.get_last_lr()
-            if args.local_rank == 0:
-                writer.add_scalar("train/lr", curr_lr[0], global_step)
+        # if global_step != 0:
+        #     curr_lr = scheduler.get_last_lr()
+        #     if args.local_rank == 0:
+        #         writer.add_scalar("train/lr", curr_lr[0], global_step)
 
     return train_iter
 
 
-def validate(val_loader, model_engine, epoch, writer, args, tokenizer):
+def validate(val_loader, model, epoch, writer, args, tokenizer):
     intersection_meter = AverageMeter("Intersec", ":6.3f", Summary.SUM)
     union_meter = AverageMeter("Union", ":6.3f", Summary.SUM)
     acc_iou_meter = AverageMeter("gIoU", ":6.3f", Summary.SUM)
 
     ce_losses = AverageMeter("CELoss", ":6.3f", Summary.SUM)
 
-    model_engine.eval()
+    # model_engine.eval()
+    model.eval()
+
     i = 0
     data_for_wb = []
     for idx, input_dict in enumerate(tqdm.tqdm(val_loader)):
         # print('input dict: ', input_dict['image_clip'].shape)
-        if i == 800:
+        if idx == 500:
             break
         torch.cuda.empty_cache()
 
@@ -622,10 +619,25 @@ def validate(val_loader, model_engine, epoch, writer, args, tokenizer):
         else:
             input_dict["images"] = input_dict["images"].float()
             input_dict["images_clip"] = input_dict["images_clip"].float()
+        # print(input_dict)
+        mask = input_dict["masks_list"][0].detach().cpu().numpy()
+        image_path = input_dict["image_paths"][0]
+        original_size_list = mask.shape[1:3]
+        # print('ori size: ', original_size_list)
+        # resize_list = image.shape[2:4]
 
         with torch.no_grad():
-            output_dict = model_engine(**input_dict)
-        
+            # output_dict = model_engine(**input_dict)
+            output_dict = model(**input_dict)
+
+            # output_ids, pred_masks=  model.evaluate(input_dict["images_clip"],
+            #                       input_dict["images"],
+            #                       input_dict['input_ids'],
+            #                       input_dict['resize_list'],
+            #                       original_size_list,
+            #                       max_new_tokens=256,
+            #                       tokenizer=tokenizer)
+                                  
         if not args.text_only:
             pred_masks = output_dict["pred_masks"]
             masks_list = output_dict["gt_masks"][0].int()
@@ -640,18 +652,20 @@ def validate(val_loader, model_engine, epoch, writer, args, tokenizer):
 
         text = tokenizer.decode(output_ids)
         
-        truncate_position = text.find("</s>")
+        # truncate_position = text.find("</s>")
 
         # Nếu tìm thấy token </s>, cắt bỏ phần văn bản sau đó
-        if truncate_position != -1:
-            truncated_text = text[:truncate_position]
-        else:
-            truncated_text = text  # Không tìm thấy </s>, giữ nguyên văn bản
+        # if truncate_position != -1:
+        #     truncated_text = text[:truncate_position]
+        # else:
+        #     truncated_text = text  # Không tìm thấy </s>, giữ nguyên văn bản
+        truncated_text = text
+        # print("Text: ", truncated_text)
         # print('tokens: ', truncated_text)
         # output_list = (pred_masks[0] > 0).int()
         # assert len(pred_masks) == 1
         # if i % 200 == 0:
-        if not args.disable_wandb and (idx == 0 or idx == 4 or idx == 6):
+        if not args.disable_wandb and (idx % 10 == 0):
             # print(input_dict["conversation_list"])
             if not args.text_only:
                 wandb.log({'val/examples': [wandb.Image(input_dict["images"][0].permute(1, 2, 0).float().cpu().numpy(),caption = 'image'), 
@@ -683,6 +697,9 @@ def validate(val_loader, model_engine, epoch, writer, args, tokenizer):
             ), acc_iou_meter.update(acc_iou, n=masks_list.shape[0])
         
         i += 1
+    
+    # wandb.log({'val/ce_loss' :ce_losses.avg})
+
     # print('intersction_meter ', intersection_meter)
     # print('union_meter: ', union_meter)
     if not args.text_only:

@@ -1,0 +1,444 @@
+ERROR: Unable to locate a modulefile for 'cuda/11.4'
+no change     /home/user01/miniconda3/condabin/conda
+no change     /home/user01/miniconda3/bin/conda
+no change     /home/user01/miniconda3/bin/conda-env
+no change     /home/user01/miniconda3/bin/activate
+no change     /home/user01/miniconda3/bin/deactivate
+no change     /home/user01/miniconda3/etc/profile.d/conda.sh
+no change     /home/user01/miniconda3/etc/fish/conf.d/conda.fish
+no change     /home/user01/miniconda3/shell/condabin/Conda.psm1
+no change     /home/user01/miniconda3/shell/condabin/conda-hook.ps1
+no change     /home/user01/miniconda3/lib/python3.12/site-packages/xontrib/conda.xsh
+no change     /home/user01/miniconda3/etc/profile.d/conda.csh
+no change     /home/user01/.bashrc
+No action taken.
+Start to activate glamm
+Mon Oct 21 01:41:49 2024       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 470.141.03   Driver Version: 470.141.03   CUDA Version: 11.4     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA A100-SXM...  On   | 00000000:07:00.0 Off |                    0 |
+| N/A   33C    P0    65W / 400W |      0MiB / 81251MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+[2024-10-21 01:41:51,658] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Warning: The cache directory for DeepSpeed Triton autotune, /home/user01/.triton/autotune, appears to be on an NFS system. While this is generally acceptable, if you experience slowdowns or hanging when DeepSpeed exits, it is recommended to set the TRITON_CACHE_DIR environment variable to a non-NFS path.
+--------------------------------------------------
+DeepSpeed C++/CUDA extension op report
+--------------------------------------------------
+NOTE: Ops not installed will be just-in-time (JIT) compiled at
+      runtime if needed. Op compatibility means that your system
+      meet the required dependencies to JIT install the op.
+--------------------------------------------------
+JIT compiled ops requires ninja
+ninja .................. [92m[OKAY][0m
+--------------------------------------------------
+op name ................ installed .. compatible
+--------------------------------------------------
+[93m [WARNING] [0m async_io requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m async_io: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+async_io ............... [93m[NO][0m ....... [93m[NO][0m
+fused_adam ............. [92m[YES][0m ...... [92m[OKAY][0m
+cpu_adam ............... [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adagrad ............ [93m[NO][0m ....... [92m[OKAY][0m
+cpu_lion ............... [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+evoformer_attn ......... [93m[NO][0m ....... [93m[NO][0m
+fp_quantizer ........... [93m[NO][0m ....... [92m[OKAY][0m
+fused_lamb ............. [93m[NO][0m ....... [92m[OKAY][0m
+fused_lion ............. [93m[NO][0m ....... [92m[OKAY][0m
+gds .................... [93m[NO][0m ....... [93m[NO][0m
+transformer_inference .. [93m[NO][0m ....... [92m[OKAY][0m
+inference_core_ops ..... [93m[NO][0m ....... [92m[OKAY][0m
+cutlass_ops ............ [93m[NO][0m ....... [92m[OKAY][0m
+quantizer .............. [93m[NO][0m ....... [92m[OKAY][0m
+ragged_device_ops ...... [93m[NO][0m ....... [92m[OKAY][0m
+ragged_ops ............. [93m[NO][0m ....... [92m[OKAY][0m
+random_ltd ............. [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m using untested triton version (3.0.0), only 1.0.0 is known to be compatible
+sparse_attn ............ [93m[NO][0m ....... [93m[NO][0m
+spatial_inference ...... [93m[NO][0m ....... [92m[OKAY][0m
+transformer ............ [93m[NO][0m ....... [92m[OKAY][0m
+stochastic_transformer . [93m[NO][0m ....... [92m[OKAY][0m
+--------------------------------------------------
+DeepSpeed general environment info:
+torch install path ............... ['/home/user01/miniconda3/envs/lisa_1/lib/python3.10/site-packages/torch']
+torch version .................... 1.13.1+cu117
+deepspeed install path ........... ['/home/user01/miniconda3/envs/lisa_1/lib/python3.10/site-packages/deepspeed']
+deepspeed info ................... 0.15.2, unknown, unknown
+torch cuda version ............... 11.7
+torch hip version ................ None
+nvcc version ..................... 11.7
+deepspeed wheel compiled w. ...... torch 1.13, cuda 11.7
+shared memory (/dev/shm) size .... 1007.84 GB
+[2024-10-21 01:41:56,006] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Warning: The cache directory for DeepSpeed Triton autotune, /home/user01/.triton/autotune, appears to be on an NFS system. While this is generally acceptable, if you experience slowdowns or hanging when DeepSpeed exits, it is recommended to set the TRITON_CACHE_DIR environment variable to a non-NFS path.
+[2024-10-21 01:41:58,172] [WARNING] [runner.py:215:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+Detected VISIBLE_DEVICES=0: setting --include=localhost:0
+[2024-10-21 01:41:58,172] [INFO] [runner.py:607:main] cmd = /home/user01/miniconda3/envs/lisa_1/bin/python -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMF19 --master_addr=127.0.0.1 --master_port=6000 --enable_each_rank_log=None train_text.py --version microsoft/llava-med-v1.5-mistral-7b --dataset_dir ./dataset --vision_pretrained runs/medsam.pth --dataset reason_seg --sample_rates 1 --local_rank 0 --batch_size 8 --epochs 30 --lr 0.00005 --print_freq 1 --steps_per_epoch 900 --ce_loss_weight 1.0 --dice_loss_weight 1.0 --bce_loss_weight 1.0 --grad_accumulation_steps 2 --model_max_length 2048 --exp_name full_medsam_vindr_llavamed_bs_16_lr_5e-5
+[2024-10-21 01:41:59,567] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Warning: The cache directory for DeepSpeed Triton autotune, /home/user01/.triton/autotune, appears to be on an NFS system. While this is generally acceptable, if you experience slowdowns or hanging when DeepSpeed exits, it is recommended to set the TRITON_CACHE_DIR environment variable to a non-NFS path.
+[2024-10-21 01:42:01,658] [INFO] [launch.py:146:main] WORLD INFO DICT: {'localhost': [0]}
+[2024-10-21 01:42:01,658] [INFO] [launch.py:152:main] nnodes=1, num_local_procs=1, node_rank=0
+[2024-10-21 01:42:01,659] [INFO] [launch.py:163:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0]})
+[2024-10-21 01:42:01,659] [INFO] [launch.py:164:main] dist_world_size=1
+[2024-10-21 01:42:01,659] [INFO] [launch.py:168:main] Setting CUDA_VISIBLE_DEVICES=0
+[2024-10-21 01:42:01,659] [INFO] [launch.py:256:main] process 1670797 spawned with command: ['/home/user01/miniconda3/envs/lisa_1/bin/python', '-u', 'train_text.py', '--local_rank=0', '--version', 'microsoft/llava-med-v1.5-mistral-7b', '--dataset_dir', './dataset', '--vision_pretrained', 'runs/medsam.pth', '--dataset', 'reason_seg', '--sample_rates', '1', '--local_rank', '0', '--batch_size', '8', '--epochs', '30', '--lr', '0.00005', '--print_freq', '1', '--steps_per_epoch', '900', '--ce_loss_weight', '1.0', '--dice_loss_weight', '1.0', '--bce_loss_weight', '1.0', '--grad_accumulation_steps', '2', '--model_max_length', '2048', '--exp_name', 'full_medsam_vindr_llavamed_bs_16_lr_5e-5']
+[2024-10-21 01:42:03,081] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Warning: The cache directory for DeepSpeed Triton autotune, /home/user01/.triton/autotune, appears to be on an NFS system. While this is generally acceptable, if you experience slowdowns or hanging when DeepSpeed exits, it is recommended to set the TRITON_CACHE_DIR environment variable to a non-NFS path.
+trainable params: 3,407,872 || all params: 7,680,865,072 || trainable%: 0.04436833570248661
+n:  base_model.model.model.embed_tokens.weight p.shape:  torch.Size([32003, 4096])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.self_attn.q_proj.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.self_attn.q_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.self_attn.k_proj.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.self_attn.k_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.self_attn.v_proj.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.self_attn.v_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.self_attn.out_proj.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.self_attn.out_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.norm1.weight p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.norm1.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.weight p.shape:  torch.Size([256, 128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.norm2.weight p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.norm2.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.mlp.lin1.weight p.shape:  torch.Size([2048, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.mlp.lin1.bias p.shape:  torch.Size([2048])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.mlp.lin2.weight p.shape:  torch.Size([256, 2048])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.mlp.lin2.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.norm3.weight p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.norm3.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.norm4.weight p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.norm4.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.weight p.shape:  torch.Size([256, 128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.self_attn.q_proj.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.self_attn.q_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.self_attn.k_proj.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.self_attn.k_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.self_attn.v_proj.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.self_attn.v_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.self_attn.out_proj.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.self_attn.out_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.norm1.weight p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.norm1.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.weight p.shape:  torch.Size([256, 128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.norm2.weight p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.norm2.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.mlp.lin1.weight p.shape:  torch.Size([2048, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.mlp.lin1.bias p.shape:  torch.Size([2048])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.mlp.lin2.weight p.shape:  torch.Size([256, 2048])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.mlp.lin2.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.norm3.weight p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.norm3.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.norm4.weight p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.norm4.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.weight p.shape:  torch.Size([256, 128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.final_attn_token_to_image.q_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.final_attn_token_to_image.q_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.final_attn_token_to_image.k_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.final_attn_token_to_image.k_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.final_attn_token_to_image.v_proj.weight p.shape:  torch.Size([128, 256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.final_attn_token_to_image.v_proj.bias p.shape:  torch.Size([128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.final_attn_token_to_image.out_proj.weight p.shape:  torch.Size([256, 128])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.final_attn_token_to_image.out_proj.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.norm_final_attn.weight p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.transformer.norm_final_attn.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.iou_token.weight p.shape:  torch.Size([1, 256])
+n:  base_model.model.model.visual_model.mask_decoder.mask_tokens.weight p.shape:  torch.Size([4, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_upscaling.0.weight p.shape:  torch.Size([256, 64, 2, 2])
+n:  base_model.model.model.visual_model.mask_decoder.output_upscaling.0.bias p.shape:  torch.Size([64])
+n:  base_model.model.model.visual_model.mask_decoder.output_upscaling.1.weight p.shape:  torch.Size([64])
+n:  base_model.model.model.visual_model.mask_decoder.output_upscaling.1.bias p.shape:  torch.Size([64])
+n:  base_model.model.model.visual_model.mask_decoder.output_upscaling.3.weight p.shape:  torch.Size([64, 32, 2, 2])
+n:  base_model.model.model.visual_model.mask_decoder.output_upscaling.3.bias p.shape:  torch.Size([32])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.0.layers.0.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.0.layers.0.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.0.layers.1.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.0.layers.1.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.0.layers.2.weight p.shape:  torch.Size([32, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.0.layers.2.bias p.shape:  torch.Size([32])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.1.layers.0.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.1.layers.0.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.1.layers.1.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.1.layers.1.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.1.layers.2.weight p.shape:  torch.Size([32, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.1.layers.2.bias p.shape:  torch.Size([32])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.2.layers.0.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.2.layers.0.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.2.layers.1.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.2.layers.1.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.2.layers.2.weight p.shape:  torch.Size([32, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.2.layers.2.bias p.shape:  torch.Size([32])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.3.layers.0.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.3.layers.0.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.3.layers.1.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.3.layers.1.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.3.layers.2.weight p.shape:  torch.Size([32, 256])
+n:  base_model.model.model.visual_model.mask_decoder.output_hypernetworks_mlps.3.layers.2.bias p.shape:  torch.Size([32])
+n:  base_model.model.model.visual_model.mask_decoder.iou_prediction_head.layers.0.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.iou_prediction_head.layers.0.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.iou_prediction_head.layers.1.weight p.shape:  torch.Size([256, 256])
+n:  base_model.model.model.visual_model.mask_decoder.iou_prediction_head.layers.1.bias p.shape:  torch.Size([256])
+n:  base_model.model.model.visual_model.mask_decoder.iou_prediction_head.layers.2.weight p.shape:  torch.Size([4, 256])
+n:  base_model.model.model.visual_model.mask_decoder.iou_prediction_head.layers.2.bias p.shape:  torch.Size([4])
+n:  base_model.model.model.text_hidden_fcs.0.0.weight p.shape:  torch.Size([4096, 4096])
+n:  base_model.model.model.text_hidden_fcs.0.0.bias p.shape:  torch.Size([4096])
+n:  base_model.model.model.text_hidden_fcs.0.2.weight p.shape:  torch.Size([256, 4096])
+n:  base_model.model.model.text_hidden_fcs.0.2.bias p.shape:  torch.Size([256])
+n:  base_model.model.lm_head.weight p.shape:  torch.Size([32003, 4096])
+text only is: False
+Training with 60818 examples and validating with 15208 examples.
+[2024-10-21 01:43:02,760] [INFO] [logging.py:96:log_dist] [Rank -1] DeepSpeed info: version=0.15.2, git-hash=unknown, git-branch=unknown
+[2024-10-21 01:43:02,760] [INFO] [comm.py:652:init_distributed] cdb=None
+[2024-10-21 01:43:02,760] [INFO] [comm.py:683:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+[2024-10-21 01:43:02,761] [INFO] [config.py:733:__init__] Config mesh_device None world_size = 1
+[2024-10-21 01:43:05,524] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed Flops Profiler Enabled: False
+[2024-10-21 01:43:05,530] [INFO] [logging.py:96:log_dist] [Rank 0] Using DeepSpeed Optimizer param name adamw as basic optimizer
+[2024-10-21 01:43:05,530] [INFO] [logging.py:96:log_dist] [Rank 0] Removing param_group that has no 'params' in the basic Optimizer
+[2024-10-21 01:43:05,688] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed Basic Optimizer = FusedAdam
+[2024-10-21 01:43:05,688] [INFO] [utils.py:59:is_zero_supported_optimizer] Checking ZeRO support for optimizer=FusedAdam type=<class 'deepspeed.ops.adam.fused_adam.FusedAdam'>
+[2024-10-21 01:43:05,688] [INFO] [logging.py:96:log_dist] [Rank 0] Creating torch.bfloat16 ZeRO stage 2 optimizer
+[2024-10-21 01:43:05,688] [INFO] [stage_1_and_2.py:149:__init__] Reduce bucket size 500000000
+[2024-10-21 01:43:05,689] [INFO] [stage_1_and_2.py:150:__init__] Allgather bucket size 500000000
+[2024-10-21 01:43:05,689] [INFO] [stage_1_and_2.py:151:__init__] CPU Offload: False
+[2024-10-21 01:43:05,689] [INFO] [stage_1_and_2.py:152:__init__] Round robin gradient partitioning: False
+[2024-10-21 01:43:06,215] [INFO] [utils.py:781:see_memory_usage] Before initializing optimizer states
+[2024-10-21 01:43:06,216] [INFO] [utils.py:782:see_memory_usage] MA 15.39 GB         Max_MA 15.93 GB         CA 16.28 GB         Max_CA 16 GB 
+[2024-10-21 01:43:06,216] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 62.7 GB, percent = 3.1%
+[2024-10-21 01:43:06,330] [INFO] [utils.py:781:see_memory_usage] After initializing optimizer states
+[2024-10-21 01:43:06,331] [INFO] [utils.py:782:see_memory_usage] MA 15.39 GB         Max_MA 16.46 GB         CA 17.35 GB         Max_CA 17 GB 
+[2024-10-21 01:43:06,332] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 62.7 GB, percent = 3.1%
+[2024-10-21 01:43:06,332] [INFO] [stage_1_and_2.py:544:__init__] optimizer state initialized
+[2024-10-21 01:43:06,445] [INFO] [utils.py:781:see_memory_usage] After initializing ZeRO optimizer
+[2024-10-21 01:43:06,445] [INFO] [utils.py:782:see_memory_usage] MA 15.39 GB         Max_MA 15.39 GB         CA 17.35 GB         Max_CA 17 GB 
+[2024-10-21 01:43:06,446] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 62.7 GB, percent = 3.1%
+[2024-10-21 01:43:06,450] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed Final Optimizer = DeepSpeedZeroOptimizer
+[2024-10-21 01:43:06,450] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed using configured LR scheduler = WarmupDecayLR
+[2024-10-21 01:43:06,450] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed LR Scheduler = <deepspeed.runtime.lr_schedules.WarmupDecayLR object at 0x7fff00d716c0>
+[2024-10-21 01:43:06,450] [INFO] [logging.py:96:log_dist] [Rank 0] step=0, skipped=0, lr=[5e-05], mom=[(0.9, 0.95)]
+[2024-10-21 01:43:06,454] [INFO] [config.py:999:print] DeepSpeedEngine configuration:
+[2024-10-21 01:43:06,454] [INFO] [config.py:1003:print]   activation_checkpointing_config  {
+    "partition_activations": false, 
+    "contiguous_memory_optimization": false, 
+    "cpu_checkpointing": false, 
+    "number_checkpoints": null, 
+    "synchronize_checkpoint_boundary": false, 
+    "profile": false
+}
+[2024-10-21 01:43:06,454] [INFO] [config.py:1003:print]   aio_config ................... {'block_size': 1048576, 'queue_depth': 8, 'thread_count': 1, 'single_submit': False, 'overlap_events': True, 'use_gds': False}
+[2024-10-21 01:43:06,454] [INFO] [config.py:1003:print]   amp_enabled .................. False
+[2024-10-21 01:43:06,455] [INFO] [config.py:1003:print]   amp_params ................... False
+[2024-10-21 01:43:06,455] [INFO] [config.py:1003:print]   autotuning_config ............ {
+    "enabled": false, 
+    "start_step": null, 
+    "end_step": null, 
+    "metric_path": null, 
+    "arg_mappings": null, 
+    "metric": "throughput", 
+    "model_info": null, 
+    "results_dir": "autotuning_results", 
+    "exps_dir": "autotuning_exps", 
+    "overwrite": true, 
+    "fast": true, 
+    "start_profile_step": 3, 
+    "end_profile_step": 5, 
+    "tuner_type": "gridsearch", 
+    "tuner_early_stopping": 5, 
+    "tuner_num_trials": 50, 
+    "model_info_path": null, 
+    "mp_size": 1, 
+    "max_train_batch_size": null, 
+    "min_train_batch_size": 1, 
+    "max_train_micro_batch_size_per_gpu": 1.024000e+03, 
+    "min_train_micro_batch_size_per_gpu": 1, 
+    "num_tuning_micro_batch_sizes": 3
+}
+[2024-10-21 01:43:06,455] [INFO] [config.py:1003:print]   bfloat16_enabled ............. True
+[2024-10-21 01:43:06,455] [INFO] [config.py:1003:print]   bfloat16_immediate_grad_update  False
+[2024-10-21 01:43:06,455] [INFO] [config.py:1003:print]   checkpoint_parallel_write_pipeline  False
+[2024-10-21 01:43:06,455] [INFO] [config.py:1003:print]   checkpoint_tag_validation_enabled  True
+[2024-10-21 01:43:06,455] [INFO] [config.py:1003:print]   checkpoint_tag_validation_fail  False
+[2024-10-21 01:43:06,455] [INFO] [config.py:1003:print]   comms_config ................. <deepspeed.comm.config.DeepSpeedCommsConfig object at 0x7fff00d71cf0>
+[2024-10-21 01:43:06,455] [INFO] [config.py:1003:print]   communication_data_type ...... None
+[2024-10-21 01:43:06,455] [INFO] [config.py:1003:print]   compression_config ........... {'weight_quantization': {'shared_parameters': {'enabled': False, 'quantizer_kernel': False, 'schedule_offset': 0, 'quantize_groups': 1, 'quantize_verbose': False, 'quantization_type': 'symmetric', 'quantize_weight_in_forward': False, 'rounding': 'nearest', 'fp16_mixed_quantize': False, 'quantize_change_ratio': 0.001}, 'different_groups': {}}, 'activation_quantization': {'shared_parameters': {'enabled': False, 'quantization_type': 'symmetric', 'range_calibration': 'dynamic', 'schedule_offset': 1000}, 'different_groups': {}}, 'sparse_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'row_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'head_pruning': {'shared_parameters': {'enabled': False, 'method': 'topk', 'schedule_offset': 1000}, 'different_groups': {}}, 'channel_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'layer_reduction': {'enabled': False}}
+[2024-10-21 01:43:06,455] [INFO] [config.py:1003:print]   curriculum_enabled_legacy .... False
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   curriculum_params_legacy ..... False
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   data_efficiency_config ....... {'enabled': False, 'seed': 1234, 'data_sampling': {'enabled': False, 'num_epochs': 1000, 'num_workers': 0, 'curriculum_learning': {'enabled': False}}, 'data_routing': {'enabled': False, 'random_ltd': {'enabled': False, 'layer_token_lr_schedule': {'enabled': False}}}}
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   data_efficiency_enabled ...... False
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   dataloader_drop_last ......... False
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   disable_allgather ............ False
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   dump_state ................... False
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   dynamic_loss_scale_args ...... None
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   eigenvalue_enabled ........... False
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   eigenvalue_gas_boundary_resolution  1
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   eigenvalue_layer_name ........ bert.encoder.layer
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   eigenvalue_layer_num ......... 0
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   eigenvalue_max_iter .......... 100
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   eigenvalue_stability ......... 1e-06
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   eigenvalue_tol ............... 0.01
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   eigenvalue_verbose ........... False
+[2024-10-21 01:43:06,456] [INFO] [config.py:1003:print]   elasticity_enabled ........... False
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   flops_profiler_config ........ {
+    "enabled": false, 
+    "recompute_fwd_factor": 0.0, 
+    "profile_step": 1, 
+    "module_depth": -1, 
+    "top_modules": 1, 
+    "detailed": true, 
+    "output_file": null
+}
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   fp16_auto_cast ............... None
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   fp16_enabled ................. False
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   fp16_master_weights_and_gradients  False
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   global_rank .................. 0
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   grad_accum_dtype ............. None
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   gradient_accumulation_steps .. 2
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   gradient_clipping ............ 1.0
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   gradient_predivide_factor .... 1.0
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   graph_harvesting ............. False
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   hybrid_engine ................ enabled=False max_out_tokens=512 inference_tp_size=1 release_inference_cache=False pin_parameters=True tp_gather_partition_size=8
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   initial_dynamic_scale ........ 1
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   load_universal_checkpoint .... False
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   loss_scale ................... 1.0
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   memory_breakdown ............. False
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   mics_hierarchial_params_gather  False
+[2024-10-21 01:43:06,457] [INFO] [config.py:1003:print]   mics_shard_size .............. -1
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   monitor_config ............... tensorboard=TensorBoardConfig(enabled=False, output_path='', job_name='DeepSpeedJobName') comet=CometConfig(enabled=False, samples_log_interval=100, project=None, workspace=None, api_key=None, experiment_name=None, experiment_key=None, online=None, mode=None) wandb=WandbConfig(enabled=False, group=None, team=None, project='deepspeed') csv_monitor=CSVConfig(enabled=False, output_path='', job_name='DeepSpeedJobName')
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   nebula_config ................ {
+    "enabled": false, 
+    "persistent_storage_path": null, 
+    "persistent_time_interval": 100, 
+    "num_of_version_in_retention": 2, 
+    "enable_nebula_load": true, 
+    "load_path": null
+}
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   optimizer_legacy_fusion ...... False
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   optimizer_name ............... adamw
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   optimizer_params ............. {'lr': 5e-05, 'weight_decay': 0.0001, 'betas': (0.9, 0.95)}
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   pipeline ..................... {'stages': 'auto', 'partition': 'best', 'seed_layers': False, 'activation_checkpoint_interval': 0, 'pipe_partitioned': True, 'grad_partitioned': True}
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   pld_enabled .................. False
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   pld_params ................... False
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   prescale_gradients ........... False
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   scheduler_name ............... WarmupDecayLR
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   scheduler_params ............. {'total_num_steps': 27000, 'warmup_min_lr': 0, 'warmup_max_lr': 5e-05, 'warmup_num_steps': 1000, 'warmup_type': 'linear'}
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   seq_parallel_communication_data_type  torch.float32
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   sparse_attention ............. None
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   sparse_gradients_enabled ..... False
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   steps_per_print .............. None
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   timers_config ................ enabled=True synchronized=True
+[2024-10-21 01:43:06,458] [INFO] [config.py:1003:print]   train_batch_size ............. 16
+[2024-10-21 01:43:06,459] [INFO] [config.py:1003:print]   train_micro_batch_size_per_gpu  8
+[2024-10-21 01:43:06,459] [INFO] [config.py:1003:print]   use_data_before_expert_parallel_  False
+[2024-10-21 01:43:06,459] [INFO] [config.py:1003:print]   use_node_local_storage ....... False
+[2024-10-21 01:43:06,459] [INFO] [config.py:1003:print]   wall_clock_breakdown ......... False
+[2024-10-21 01:43:06,459] [INFO] [config.py:1003:print]   weight_quantization_config ... None
+[2024-10-21 01:43:06,459] [INFO] [config.py:1003:print]   world_size ................... 1
+[2024-10-21 01:43:06,459] [INFO] [config.py:1003:print]   zero_allow_untested_optimizer  False
+[2024-10-21 01:43:06,459] [INFO] [config.py:1003:print]   zero_config .................. stage=2 contiguous_gradients=True reduce_scatter=True reduce_bucket_size=500000000 use_multi_rank_bucket_allreduce=True allgather_partitions=True allgather_bucket_size=500000000 overlap_comm=True load_from_fp32_weights=True elastic_checkpoint=False offload_param=None offload_optimizer=None sub_group_size=1000000000 cpu_offload_param=None cpu_offload_use_pin_memory=None cpu_offload=None prefetch_bucket_size=50000000 param_persistence_threshold=100000 model_persistence_threshold=9223372036854775807 max_live_parameters=1000000000 max_reuse_distance=1000000000 gather_16bit_weights_on_model_save=False use_all_reduce_for_fetch_params=False stage3_gather_fp16_weights_on_model_save=False ignore_unused_parameters=True legacy_stage1=False round_robin_gradients=False zero_hpz_partition_size=1 zero_quantized_weights=False zero_quantized_nontrainable_weights=False zero_quantized_gradients=False mics_shard_size=-1 mics_hierarchical_params_gather=False memory_efficient_linear=True pipeline_loading_checkpoint=False override_module_apply=True
+[2024-10-21 01:43:06,459] [INFO] [config.py:1003:print]   zero_enabled ................. True
+[2024-10-21 01:43:06,459] [INFO] [config.py:1003:print]   zero_force_ds_cpu_optimizer .. True
+[2024-10-21 01:43:06,459] [INFO] [config.py:1003:print]   zero_optimization_stage ...... 2
+[2024-10-21 01:43:06,459] [INFO] [config.py:989:print_user_config]   json = {
+    "train_micro_batch_size_per_gpu": 8, 
+    "gradient_accumulation_steps": 2, 
+    "optimizer": {
+        "type": "AdamW", 
+        "params": {
+            "lr": 5e-05, 
+            "weight_decay": 0.0001, 
+            "betas": [0.9, 0.95]
+        }
+    }, 
+    "scheduler": {
+        "type": "WarmupDecayLR", 
+        "params": {
+            "total_num_steps": 2.700000e+04, 
+            "warmup_min_lr": 0, 
+            "warmup_max_lr": 5e-05, 
+            "warmup_num_steps": 1000, 
+            "warmup_type": "linear"
+        }
+    }, 
+    "fp16": {
+        "enabled": false
+    }, 
+    "bf16": {
+        "enabled": true
+    }, 
+    "gradient_clipping": 1.0, 
+    "zero_optimization": {
+        "stage": 2, 
+        "contiguous_gradients": true, 
+        "overlap_comm": true, 
+        "reduce_scatter": true, 
+        "reduce_bucket_size": 5.000000e+08, 
+        "allgather_bucket_size": 5.000000e+08
+    }
+}
+input_dict text only:  [False, False, False, False, False, False, False, False]
+image_embeddings:  torch.Size([8, 256, 64, 64])
+offset:  tensor([0, 1, 2, 3, 4, 5, 6, 7, 8], device='cuda:0')
+input_ids:  torch.Size([8, 288])
+seg_token_mask:  torch.Size([8, 287]) tensor([[False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False],
+        ...,
+        [False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False]], device='cuda:0')
+seg_token_mask 2:  torch.Size([8, 288]) tensor([[False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False],
+        ...,
+        [False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False]], device='cuda:0')
+seg_token_mask 3:  torch.Size([8, 543]) tensor([[False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False],
+        ...,
+        [False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False],
+        [False, False, False,  ..., False, False, False]], device='cuda:0')
+[2024-10-21 01:43:21,740] [INFO] [launch.py:319:sigkill_handler] Killing subprocess 1670797
+[2024-10-21 01:43:21,740] [ERROR] [launch.py:325:sigkill_handler] ['/home/user01/miniconda3/envs/lisa_1/bin/python', '-u', 'train_text.py', '--local_rank=0', '--version', 'microsoft/llava-med-v1.5-mistral-7b', '--dataset_dir', './dataset', '--vision_pretrained', 'runs/medsam.pth', '--dataset', 'reason_seg', '--sample_rates', '1', '--local_rank', '0', '--batch_size', '8', '--epochs', '30', '--lr', '0.00005', '--print_freq', '1', '--steps_per_epoch', '900', '--ce_loss_weight', '1.0', '--dice_loss_weight', '1.0', '--bce_loss_weight', '1.0', '--grad_accumulation_steps', '2', '--model_max_length', '2048', '--exp_name', 'full_medsam_vindr_llavamed_bs_16_lr_5e-5'] exits with return code = 1

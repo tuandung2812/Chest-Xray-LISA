@@ -11,7 +11,16 @@ import torch
 from .modeling import (ImageEncoderViT, MaskDecoder, PromptEncoder, Sam,
                        TwoWayTransformer)
 
+import io
+import pickle
 
+class CPU_Unpickler(pickle.Unpickler):
+    def find_class(self, module, name):
+        if module == 'torch.storage' and name == '_load_from_bytes':
+            return lambda b: torch.load(io.BytesIO(b), map_location='cpu')
+        else: return super().find_class(module, name)
+    
+    
 def build_sam_vit_h(checkpoint=None):
     return _build_sam(
         encoder_embed_dim=1280,
@@ -103,6 +112,10 @@ def _build_sam(
     sam.eval()
     if checkpoint is not None:
         with open(checkpoint, "rb") as f:
-            state_dict = torch.load(f)
+            try:
+                state_dict = torch.load(f)
+            except:
+                state_dict = CPU_Unpickler(f).load()
+
         sam.load_state_dict(state_dict, strict=False)
     return sam

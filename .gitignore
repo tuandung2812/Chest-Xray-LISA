@@ -5,3 +5,9 @@ viz/
 vis_output/
 wandb/
 **/ipynb_checkpoints/
+*.ipynb_checkpoints*
+groundingLMM/dataset/final_data/
+groundingLMM/mmcv/
+checkpoints/
+builds/
+*.run

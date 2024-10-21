@@ -68,7 +68,8 @@ def collate_fn(
         offset_list.append(cnt)
         inferences.append(inference)
         text_only_list.append(text_only)
-
+    # print(f'image paths: {image_path_list}')
+    # print(f'conversation_list: {conversation_list}')
     if use_mm_start_end:
         # replace <image> token
 
@@ -120,7 +121,7 @@ def collate_fn(
                 break
 
             parts = rou.split(sep)
-            print('parts', parts)
+            # print('parts', parts)
             # if len(parts) != 2:
             #     break
             assert len(parts) == 2, (len(parts), rou)

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # SBATCH --job-name=setup_server        # Job name
-#SBATCH --output=result_lisa_vindr.txt      # Output file
-#SBATCH --error=error_lisa_vindr.txt        # Error file
+#SBATCH --output=result_lisa_vindr_debug.txt      # Output file
+#SBATCH --error=error_lisa_vindr_debug.txt        # Error file
 #SBATCH --ntasks=1               # Number of tasks (processes)
 #SBATCH --cpus-per-task=8        # Number of CPU cores per task
 #SBATCH --mem=16G                 # Memory per node (4 GB)
@@ -10,8 +10,9 @@
 
 # Set the number of threads
 export OMP_NUM_THREADS=4
-export LD_LIBRARY_PATH=/home/user01/miniconda3/envs/glamm/lib:$LD_LIBRARY_PATH
-export PYTHONPATH="mccv:$PYTHONPATH"
+# export LD_LIBRARY_PATH=/home/user01/miniconda3/envs/glamm/lib:$LD_LIBRARY_PATH
+# export PYTHONPATH="mccv:$PYTHONPATH"
+export CUDA_HOME=/home/user01/aiotlab/dung_paper/cuda
 # Set the GPU index
 # export CUDA_VISIBLE_DEVICES=1
 
@@ -43,15 +44,14 @@ deepspeed --master_port 6000 train_text.py \
   --dataset "reason_seg" \
   --sample_rates "1" \
   --local_rank 0 \
-  --batch_size 4 \
+  --batch_size 8 \
   --epochs 30 \
   --lr 0.00005 \
   --print_freq 1 \
-  --steps_per_epoch 2000 \
+  --steps_per_epoch 900 \
    --ce_loss_weight 1.0 \
    --dice_loss_weight 1.0 \
    --bce_loss_weight 1.0 \
    --grad_accumulation_steps 2 \
     --model_max_length 2048 \
-   --text_only \
-   --exp_name "text_only_medsam_vindr_llavamed_bs_16_lr_5e-5"
+    --exp_name "full_medsam_vindr_llavamed_bs_16_lr_5e-5"
