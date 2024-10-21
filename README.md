@@ -11,7 +11,7 @@
 - Convert dicom images to jpg format by running the code process_mimic/convert_dicom.py 
     + you might need to adjust input_dir and output_dir
     + You need to run this code twice for the train and test set
-    + *ALL IMAGES* need to be saved at *aiotlab/dung_paper/groundingLMM/LISAMed/dataset/VinDr/image/jpg/all*
+    + **ALL IMAGES** need to be saved at *aiotlab/dung_paper/groundingLMM/LISAMed/dataset/VinDr/image/jpg/all*
 - Prepare the VQA and segmentation mask data
     + Place the segmentation data on Drive at VinDr/VinDR_MedGLaMM
     + Run the code *prepare_vindr.py*
@@ -23,5 +23,6 @@
 ## Training
 - cd groundingLMM
 - run *file finetune_glamm_vindr.sh* to start debugging the training process
-   + Remember to adjust some checkpoint path (medsam, output_dir)
+   + Remember to adjust some checkpoint path (medsam, output_dir).
+   + The MedSam model I'm using is medsam_vit_b.pth: https://drive.google.com/drive/folders/1ETWmi4AiniJeWOt6HAsYgTjYv_fkgzoN
   
