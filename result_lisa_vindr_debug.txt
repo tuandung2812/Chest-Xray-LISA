@@ -1,0 +1,103 @@
+ERROR: Unable to locate a modulefile for 'cuda/11.4'
+no change     /home/user01/miniconda3/condabin/conda
+no change     /home/user01/miniconda3/bin/conda
+no change     /home/user01/miniconda3/bin/conda-env
+no change     /home/user01/miniconda3/bin/activate
+no change     /home/user01/miniconda3/bin/deactivate
+no change     /home/user01/miniconda3/etc/profile.d/conda.sh
+no change     /home/user01/miniconda3/etc/fish/conf.d/conda.fish
+no change     /home/user01/miniconda3/shell/condabin/Conda.psm1
+no change     /home/user01/miniconda3/shell/condabin/conda-hook.ps1
+no change     /home/user01/miniconda3/lib/python3.12/site-packages/xontrib/conda.xsh
+no change     /home/user01/miniconda3/etc/profile.d/conda.csh
+no change     /home/user01/.bashrc
+No action taken.
+Start to activate glamm
+Wed Oct 23 17:01:12 2024       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 470.141.03   Driver Version: 470.141.03   CUDA Version: 11.4     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA A100-SXM...  On   | 00000000:90:00.0 Off |                    0 |
+| N/A   35C    P0    68W / 400W |      0MiB / 81251MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+[2024-10-23 17:01:15,295] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Warning: The cache directory for DeepSpeed Triton autotune, /home/user01/.triton/autotune, appears to be on an NFS system. While this is generally acceptable, if you experience slowdowns or hanging when DeepSpeed exits, it is recommended to set the TRITON_CACHE_DIR environment variable to a non-NFS path.
+--------------------------------------------------
+DeepSpeed C++/CUDA extension op report
+--------------------------------------------------
+NOTE: Ops not installed will be just-in-time (JIT) compiled at
+      runtime if needed. Op compatibility means that your system
+      meet the required dependencies to JIT install the op.
+--------------------------------------------------
+JIT compiled ops requires ninja
+ninja .................. [92m[OKAY][0m
+--------------------------------------------------
+op name ................ installed .. compatible
+--------------------------------------------------
+[93m [WARNING] [0m async_io requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m async_io: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+async_io ............... [93m[NO][0m ....... [93m[NO][0m
+fused_adam ............. [92m[YES][0m ...... [92m[OKAY][0m
+cpu_adam ............... [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adagrad ............ [93m[NO][0m ....... [92m[OKAY][0m
+cpu_lion ............... [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+evoformer_attn ......... [93m[NO][0m ....... [93m[NO][0m
+fp_quantizer ........... [93m[NO][0m ....... [92m[OKAY][0m
+fused_lamb ............. [93m[NO][0m ....... [92m[OKAY][0m
+fused_lion ............. [93m[NO][0m ....... [92m[OKAY][0m
+gds .................... [93m[NO][0m ....... [93m[NO][0m
+transformer_inference .. [93m[NO][0m ....... [92m[OKAY][0m
+inference_core_ops ..... [93m[NO][0m ....... [92m[OKAY][0m
+cutlass_ops ............ [93m[NO][0m ....... [92m[OKAY][0m
+quantizer .............. [93m[NO][0m ....... [92m[OKAY][0m
+ragged_device_ops ...... [93m[NO][0m ....... [92m[OKAY][0m
+ragged_ops ............. [93m[NO][0m ....... [92m[OKAY][0m
+random_ltd ............. [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m using untested triton version (3.0.0), only 1.0.0 is known to be compatible
+sparse_attn ............ [93m[NO][0m ....... [93m[NO][0m
+spatial_inference ...... [93m[NO][0m ....... [92m[OKAY][0m
+transformer ............ [93m[NO][0m ....... [92m[OKAY][0m
+stochastic_transformer . [93m[NO][0m ....... [92m[OKAY][0m
+--------------------------------------------------
+DeepSpeed general environment info:
+torch install path ............... ['/home/user01/miniconda3/envs/lisa_1/lib/python3.10/site-packages/torch']
+torch version .................... 1.13.1+cu117
+deepspeed install path ........... ['/home/user01/miniconda3/envs/lisa_1/lib/python3.10/site-packages/deepspeed']
+deepspeed info ................... 0.15.2, unknown, unknown
+torch cuda version ............... 11.7
+torch hip version ................ None
+nvcc version ..................... 11.7
+deepspeed wheel compiled w. ...... torch 1.13, cuda 11.7
+shared memory (/dev/shm) size .... 1007.84 GB
+[2024-10-23 17:01:20,241] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Warning: The cache directory for DeepSpeed Triton autotune, /home/user01/.triton/autotune, appears to be on an NFS system. While this is generally acceptable, if you experience slowdowns or hanging when DeepSpeed exits, it is recommended to set the TRITON_CACHE_DIR environment variable to a non-NFS path.
+[2024-10-23 17:01:22,875] [WARNING] [runner.py:215:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+Detected VISIBLE_DEVICES=0: setting --include=localhost:0
+[2024-10-23 17:01:22,876] [INFO] [runner.py:607:main] cmd = /home/user01/miniconda3/envs/lisa_1/bin/python -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMF19 --master_addr=127.0.0.1 --master_port=6000 --enable_each_rank_log=None train_new.py --version microsoft/llava-med-v1.5-mistral-7b --dataset_dir ./dataset --vision_pretrained runs/medsam.pth --dataset reason_seg --sample_rates 1 --local_rank 0 --batch_size 8 --epochs 30 --lr 0.00005 --print_freq 1 --steps_per_epoch 1 --ce_loss_weight 1.0 --dice_loss_weight 1.0 --bce_loss_weight 1.0 --grad_accumulation_steps 2 --model_max_length 2048 --exp_name full_medsam_vindr_llavamed_bs_16_lr_5e-5
+[2024-10-23 17:01:24,532] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Warning: The cache directory for DeepSpeed Triton autotune, /home/user01/.triton/autotune, appears to be on an NFS system. While this is generally acceptable, if you experience slowdowns or hanging when DeepSpeed exits, it is recommended to set the TRITON_CACHE_DIR environment variable to a non-NFS path.
+[2024-10-23 17:01:26,889] [INFO] [launch.py:146:main] WORLD INFO DICT: {'localhost': [0]}
+[2024-10-23 17:01:26,889] [INFO] [launch.py:152:main] nnodes=1, num_local_procs=1, node_rank=0
+[2024-10-23 17:01:26,889] [INFO] [launch.py:163:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0]})
+[2024-10-23 17:01:26,889] [INFO] [launch.py:164:main] dist_world_size=1
+[2024-10-23 17:01:26,889] [INFO] [launch.py:168:main] Setting CUDA_VISIBLE_DEVICES=0
+[2024-10-23 17:01:26,890] [INFO] [launch.py:256:main] process 2066018 spawned with command: ['/home/user01/miniconda3/envs/lisa_1/bin/python', '-u', 'train_new.py', '--local_rank=0', '--version', 'microsoft/llava-med-v1.5-mistral-7b', '--dataset_dir', './dataset', '--vision_pretrained', 'runs/medsam.pth', '--dataset', 'reason_seg', '--sample_rates', '1', '--local_rank', '0', '--batch_size', '8', '--epochs', '30', '--lr', '0.00005', '--print_freq', '1', '--steps_per_epoch', '1', '--ce_loss_weight', '1.0', '--dice_loss_weight', '1.0', '--bce_loss_weight', '1.0', '--grad_accumulation_steps', '2', '--model_max_length', '2048', '--exp_name', 'full_medsam_vindr_llavamed_bs_16_lr_5e-5']
+[2024-10-23 17:01:28,303] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Warning: The cache directory for DeepSpeed Triton autotune, /home/user01/.triton/autotune, appears to be on an NFS system. While this is generally acceptable, if you experience slowdowns or hanging when DeepSpeed exits, it is recommended to set the TRITON_CACHE_DIR environment variable to a non-NFS path.
+[2024-10-23 17:01:31,895] [INFO] [launch.py:319:sigkill_handler] Killing subprocess 2066018
+[2024-10-23 17:01:31,895] [ERROR] [launch.py:325:sigkill_handler] ['/home/user01/miniconda3/envs/lisa_1/bin/python', '-u', 'train_new.py', '--local_rank=0', '--version', 'microsoft/llava-med-v1.5-mistral-7b', '--dataset_dir', './dataset', '--vision_pretrained', 'runs/medsam.pth', '--dataset', 'reason_seg', '--sample_rates', '1', '--local_rank', '0', '--batch_size', '8', '--epochs', '30', '--lr', '0.00005', '--print_freq', '1', '--steps_per_epoch', '1', '--ce_loss_weight', '1.0', '--dice_loss_weight', '1.0', '--bce_loss_weight', '1.0', '--grad_accumulation_steps', '2', '--model_max_length', '2048', '--exp_name', 'full_medsam_vindr_llavamed_bs_16_lr_5e-5'] exits with return code = 1

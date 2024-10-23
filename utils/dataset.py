@@ -62,6 +62,7 @@ def collate_fn(
         resize_list.append(resize)
         questions_list.append(questions)
         sampled_classes_list.append(sampled_classes)
+        # print('conversations: ', conversations)
         cnt += len(conversations)
         offset_list.append(cnt)
         inferences.append(inference)
