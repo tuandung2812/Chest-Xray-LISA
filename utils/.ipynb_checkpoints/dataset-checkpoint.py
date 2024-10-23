@@ -41,6 +41,7 @@ def collate_fn(
     offset_list = [0]
     cnt = 0
     inferences = []
+    text_only_list = []
     for (
         image_path,
         images,
@@ -52,6 +53,7 @@ def collate_fn(
         questions,
         sampled_classes,
         inference,
+        text_only
     ) in batch:
         image_path_list.append(image_path)
         images_list.append(images)
@@ -66,7 +68,9 @@ def collate_fn(
         cnt += len(conversations)
         offset_list.append(cnt)
         inferences.append(inference)
-
+        text_only_list.append(text_only)
+    # print(f'image paths: {image_path_list}')
+    # print(f'conversation_list: {conversation_list}')
     if use_mm_start_end:
         # replace <image> token
 
@@ -97,7 +101,9 @@ def collate_fn(
     attention_masks = input_ids.ne(tokenizer.pad_token_id)
 
     # Load some default conversation
-    conv = conversation_lib.default_conversation.copy()
+    # conv = conversation_lib.default_conversation.copy()
+    conv = conversation_lib.default_conversation_medical.copy()
+
     # Copy the conversation
     targets = input_ids.clone()
 
@@ -116,6 +122,7 @@ def collate_fn(
                 break
 
             parts = rou.split(sep)
+            # print('parts', parts)
             # if len(parts) != 2:
             #     break
             assert len(parts) == 2, (len(parts), rou)
@@ -137,7 +144,7 @@ def collate_fn(
             assert cur_len == total_len
 
     if inferences[0] == False:
-        truncate_len = tokenizer.model_max_length - 255
+        truncate_len = tokenizer.model_max_length 
 
 
         if input_ids.shape[1] > truncate_len:
@@ -145,7 +152,11 @@ def collate_fn(
             input_ids = input_ids[:, :truncate_len]
             targets = targets[:, :truncate_len]
             attention_masks = attention_masks[:, :truncate_len]
+#     print('collate input_ids: ', input_ids, len(input_ids), input_ids.shape)
+#     print('collate target: ', targets, len(targets), targets.shape)
 
+#     print('collate input_ids: ', tokenizer.decode(input_ids))
+#     print('collate target: ', tokenizer.decode(targets))
     return {
         "image_paths": image_path_list,
         "images": torch.stack(images_list, dim=0),
@@ -161,7 +172,9 @@ def collate_fn(
         "sampled_classes_list": sampled_classes_list,
         "inference": inferences[0],
         "conversation_list": conversation_list,
+        'text_only': text_only_list
     }
+
 
 
 class HybridDataset(torch.utils.data.Dataset):

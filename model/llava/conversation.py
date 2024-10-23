@@ -428,7 +428,7 @@ conv_vicuna_medical = Conversation(
     Example 3:
     - Does Aorta suffer from Calcification? 
     - The location of Aorta is at <segment token>. The answer is No.
-    Example 3:
+    Example 4:
     - Does Heart suffer from any abnormalities?
     - The location of Heart is at <segment token>. It has no abnormalities.""",
     roles=("USER", "ASSISTANT"),

@@ -35,8 +35,8 @@ def dicom_to_jpg(input_dir, output_dir):
 if __name__ == "__main__":
     # Thiết lập argparse để nhận các tham số từ dòng lệnh
     parser = argparse.ArgumentParser(description="Chuyển đổi tất cả các file DICOM trong thư mục thành JPG.")
-    parser.add_argument('--input_dir', type=str, help="Thư mục chứa các file DICOM đầu vào", default = '/home/user01/aiotlab/dung_paper/groundingLMM/vinbigdata/train/')
-    parser.add_argument('--output_dir', type=str, help="Thư mục lưu trữ các file JPG đầu ra", default= '/home/user01/aiotlab/dung_paper/groundingLMM/vinbigdata/jpg/train/')
+    parser.add_argument('--input_dir', type=str, help="Thư mục chứa các file DICOM đầu vào", default = 'dataset/VinDr/image/train/')
+    parser.add_argument('--output_dir', type=str, help="Thư mục lưu trữ các file JPG đầu ra", default= 'dataset/VinDr/image/jpg/all')
     
     args = parser.parse_args()
     print(args)

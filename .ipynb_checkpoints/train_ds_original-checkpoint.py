@@ -106,6 +106,7 @@ def parse_args(args):
         choices=["llava_v1", "llava_llama_2"],
     )
     parser.add_argument("--disable_wandb", action = "store_true",default=False)
+    parser.add_argument("--text_only", action="store_true", default=False)
 
     return parser.parse_args(args)
 
@@ -181,9 +182,9 @@ def main(args):
     for p in model.get_model().mm_projector.parameters():
         p.requires_grad = False
 
-    conversation_lib.default_conversation = conversation_lib.conv_templates[
-        args.conv_type
-    ]
+    # conversation_lib.default_conversation = conversation_lib.conv_templates[
+    #     args.conv_type
+    # ]
 
     lora_r = args.lora_r
     if lora_r > 0:
@@ -296,7 +297,7 @@ def main(args):
                                   samples_per_epoch=args.batch_size,
                                  precision=args.precision,
                                  image_size=args.image_size,
-                                 split='train')
+                                 split='train', text_only = args.text_only)
     # print('train dataset: ',len(train_dataset))
     
                 
@@ -314,7 +315,7 @@ def main(args):
                                       samples_per_epoch=args.batch_size,
                                      precision=args.precision,
                                      image_size=args.image_size,
-                                     split='test')
+                                     split='test', text_only = args.text_only)
     print(
         f"Training with {len(train_dataset)} examples and validating with {len(val_dataset)} examples."
         )

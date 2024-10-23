@@ -86,6 +86,7 @@ ANSWER_TEMPLATES = {
 if __name__ == "__main__":
     import json
     random.seed(42)
+    np.random.seed(42)
     import os
     from tqdm import tqdm
 
@@ -317,7 +318,7 @@ if __name__ == "__main__":
                                        'finegrained_type':  'adversarial_easy_at_anatomy_disease_yes_no', 
                                        'question':easy_adv_anat_question,
                                        "answer": "No",
-                                       "grounded_answer": grounded_answer_hard, 'anat': easy_anat})
+                                       "grounded_answer": grounded_answer_easy, 'anat': easy_anat})
             
             
             # 'adversarial_anatomy_open'
@@ -358,10 +359,10 @@ if __name__ == "__main__":
     train_data = {key: questions_data[key] for key in train_patients}
     test_data = {key: questions_data[key] for key in test_patients}
 
-    with open('vindr_qa_data_train.json', 'w', encoding='utf-8') as json_file:
+    with open('process_mimic/vindr_qa_data_train.json', 'w', encoding='utf-8') as json_file:
         json.dump(train_data, json_file, ensure_ascii=False, indent=4)
 
-    with open('vindr_qa_data_test.json', 'w', encoding='utf-8') as json_file:
+    with open('process_mimic/vindr_qa_data_test.json', 'w', encoding='utf-8') as json_file:
         json.dump(test_data, json_file, ensure_ascii=False, indent=4)
 
 

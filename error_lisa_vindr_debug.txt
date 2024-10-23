@@ -3,7 +3,3 @@ CondaError: Run 'conda init' before 'conda activate'
 
 /home/user01/miniconda3/envs/lisa_1/compiler_compat/ld: cannot find -lcufile: No such file or directory
 collect2: error: ld returned 1 exit status
-Traceback (most recent call last):
-  File "/home/user01/aiotlab/dung_paper/groundingLMM/LISAMed/train_new.py", line 8, in <module>
-    from model.LISA import LISAForCausalLM
-ValueError: source code string cannot contain null bytes

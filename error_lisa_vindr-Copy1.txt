@@ -1,0 +1,51 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+Loading checkpoint shards:   0%|                                                   | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████████████████████▌                     | 2/4 [00:00<00:00, 11.02it/s]Loading checkpoint shards: 100%|███████████████████████████████████████████| 4/4 [00:00<00:00, 10.97it/s]Loading checkpoint shards: 100%|███████████████████████████████████████████| 4/4 [00:00<00:00, 10.97it/s]
+Using /home/user01/.cache/torch_extensions/py310_cu117 as PyTorch extensions root...
+Detected CUDA files, patching ldflags
+Emitting ninja build file /home/user01/.cache/torch_extensions/py310_cu117/fused_adam/build.ninja...
+Building extension module fused_adam...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+Loading extension module fused_adam...
+[W CUDAGuardImpl.h:46] Warning: CUDA warning: CUDA driver version is insufficient for CUDA runtime version (function uncheckedGetDevice)
+[W CUDAGuardImpl.h:62] Warning: CUDA warning: CUDA driver version is insufficient for CUDA runtime version (function uncheckedSetDevice)
+Traceback (most recent call last):
+  File "/home/user01/aiotlab/dung_paper/groundingLMM/LISAMed/train_text.py", line 713, in <module>
+    main(sys.argv[1:])
+  File "/home/user01/aiotlab/dung_paper/groundingLMM/LISAMed/train_text.py", line 427, in main
+    train_iter = train(
+  File "/home/user01/aiotlab/dung_paper/groundingLMM/LISAMed/train_text.py", line 497, in train
+    for global_step, input_dict in enumerate(train_loader):
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/site-packages/deepspeed/runtime/dataloader.py", line 124, in __next__
+    return next(self.data)
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/site-packages/deepspeed/runtime/dataloader.py", line 157, in <genexpr>
+    self.data = (x for x in self.dataloader)
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 628, in __next__
+    data = self._next_data()
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1313, in _next_data
+    return self._process_data(data)
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1359, in _process_data
+    data.reraise()
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/site-packages/torch/_utils.py", line 542, in reraise
+    raise RuntimeError(msg) from None
+RuntimeError: Caught JSONDecodeError in DataLoader worker process 1.
+Original Traceback (most recent call last):
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 302, in _worker_loop
+    data = fetcher.fetch(index)
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 58, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 58, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/user01/aiotlab/dung_paper/groundingLMM/LISAMed/utils/vindr_dataset.py", line 226, in __getitem__
+    annotation = json.load(f)
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/json/__init__.py", line 293, in load
+    return loads(fp.read(),
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/home/user01/miniconda3/envs/glamm_2/lib/python3.10/json/decoder.py", line 353, in raw_decode
+    obj, end = self.scan_once(s, idx)
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 1 column 42552 (char 42551)
+
