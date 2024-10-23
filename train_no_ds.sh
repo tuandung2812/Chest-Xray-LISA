@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python train_text_no_ds.py \
+python train_no_ds.py \
   --version "microsoft/llava-med-v1.5-mistral-7b" \
   --dataset_dir "./dataset" \
   --vision_pretrained "runs/sam_vit_h_4b8939.pth" \
