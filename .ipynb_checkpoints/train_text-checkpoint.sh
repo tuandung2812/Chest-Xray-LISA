@@ -37,7 +37,7 @@ conda activate glamm_2
 # # Check GPU status
 nvidia-smi
 ds_report
-deepspeed --master_port 6000 train_text.py \
+deepspeed --master_port 6000 train_new.py \
   --version "microsoft/llava-med-v1.5-mistral-7b" \
   --dataset_dir "./dataset" \
   --vision_pretrained "runs/medsam.pth" \
@@ -48,7 +48,7 @@ deepspeed --master_port 6000 train_text.py \
   --epochs 30 \
   --lr 0.00005 \
   --print_freq 1 \
-  --steps_per_epoch 900 \
+  --steps_per_epoch 1 \
    --ce_loss_weight 1.0 \
    --dice_loss_weight 1.0 \
    --bce_loss_weight 1.0 \

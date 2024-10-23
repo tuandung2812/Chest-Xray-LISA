@@ -421,16 +421,16 @@ conv_vicuna_medical = Conversation(
     The assistant analyzes the given content of the image. The assistant firt identify the region of interest and segments the area of interest. Afterwards, it gives helpful, accurate, concise answers to the user's questions. Here are some examples"
     "Example 1:
     - Are there any observations at Left middle lung? 
-    - The location of Left middle lung is at [SEG]. It suffers from Pleural thickening.    
+    - The location of Left middle lung is at <segment token>. It suffers from Pleural thickening.    
     Example 2
     - Does Right Upper Lung have Nodule/Mass?
-    - The location of Right Upper Lung is at [SEG]. The answer is Yes.
+    - The location of Right Upper Lung is at <segment token>. The answer is Yes.
     Example 3:
     - Does Aorta suffer from Calcification? 
-    - The location of Aorta is at [SEG]. The answer is No.
-    Example 3:
+    - The location of Aorta is at <segment token>. The answer is No.
+    Example 4:
     - Does Heart suffer from any abnormalities?
-    - The location of Heart is at [SEG]. It has no abnormalities.""",
+    - The location of Heart is at <segment token>. It has no abnormalities.""",
     roles=("USER", "ASSISTANT"),
     version="v1",
     messages=(),

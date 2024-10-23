@@ -22,6 +22,10 @@ import sys
 import time
 from functools import partial
 import wandb
+from torch.optim import AdamW
+from utils.optimizer import WarmupDecayLR
+from torch.utils.data import DataLoader
+import torch.nn.utils as nn_utils
 
 def parse_args(args):
     parser = argparse.ArgumentParser(description="LISA Model Training")
@@ -321,56 +325,80 @@ def main(args):
 #         val_dataset = None
 #         print(f"Training with {len(train_dataset)} examples.")
 
-    ds_config = {
-        "train_micro_batch_size_per_gpu": args.batch_size,
-        "gradient_accumulation_steps": args.grad_accumulation_steps,
-        "optimizer": {
-            "type": "AdamW",
-            "params": {
-                "lr": args.lr,
-                "weight_decay": 1e-4,
-                "betas": (args.beta1, args.beta2),
-            },
-        },
-        "scheduler": {
-            "type": "WarmupDecayLR",
-            "params": {
-                "total_num_steps": args.epochs * args.steps_per_epoch,
-                "warmup_min_lr": 0,
-                "warmup_max_lr": args.lr,
-                "warmup_num_steps": 1000,
-                "warmup_type": "linear",
-            },
-        },
-        "fp16": {
-            "enabled": args.precision == "fp16",
-        },
-        "bf16": {
-            "enabled": args.precision == "bf16",
-        },
-        "gradient_clipping": 1.0,
-        "zero_optimization": {
-            "stage": 2,
-            "contiguous_gradients": True,
-            "overlap_comm": True,
-            "reduce_scatter": True,
-            "reduce_bucket_size": 5e8,
-            "allgather_bucket_size": 5e8,
-        },
-    }
-    model_engine, optimizer, train_loader, scheduler = deepspeed.initialize(
-        model=model,
-        model_parameters=model.parameters(),
-        training_data=train_dataset,
+    # ds_config = {
+    #     "train_micro_batch_size_per_gpu": args.batch_size,
+    #     "gradient_accumulation_steps": args.grad_accumulation_steps,
+    #     "optimizer": {
+    #         "type": "AdamW",
+    #         "params": {
+    #             "lr": args.lr,
+    #             "weight_decay": 1e-4,
+    #             "betas": (args.beta1, args.beta2),
+    #         },
+    #     },
+    #     "scheduler": {
+    #         "type": "WarmupDecayLR",
+    #         "params": {
+    #             "total_num_steps": args.epochs * args.steps_per_epoch,
+    #             "warmup_min_lr": 0,
+    #             "warmup_max_lr": args.lr,
+    #             "warmup_num_steps": 1000,
+    #             "warmup_type": "linear",
+    #         },
+    #     },
+    #     "fp16": {
+    #         "enabled": args.precision == "fp16",
+    #     },
+    #     "bf16": {
+    #         "enabled": args.precision == "bf16",
+    #     },
+    #     "gradient_clipping": 1.0,
+    #     "zero_optimization": {
+    #         "stage": 2,
+    #         "contiguous_gradients": True,
+    #         "overlap_comm": True,
+    #         "reduce_scatter": True,
+    #         "reduce_bucket_size": 5e8,
+    #         "allgather_bucket_size": 5e8,
+    #     },
+    # }
+    # model_engine, optimizer, train_loader, scheduler = deepspeed.initialize(
+    #     model=model,
+    #     model_parameters=model.parameters(),
+    #     training_data=train_dataset,
+    #     collate_fn=partial(
+    #         collate_fn,
+    #         tokenizer=tokenizer,
+    #         conv_type=args.conv_type,
+    #         use_mm_start_end=args.use_mm_start_end,
+    #         # local_rank=args.local_rank,
+    #     ),
+    #     config=ds_config,
+    # )
+    optimizer = AdamW(model.parameters(), lr=args.lr, betas=(args.beta1, args.beta2),  weight_decay=0.0)
+    # Set up the scheduler
+    scheduler = WarmupDecayLR(
+        optimizer=optimizer,
+        total_num_steps=args.epochs * args.steps_per_epoch,
+        warmup_min_lr=0,
+        warmup_max_lr=args.lr,
+        warmup_num_steps=100,
+        warmup_type="linear")
+
+    # Set up the data loader
+    train_loader = DataLoader(
+        dataset=train_dataset,
+        batch_size=args.batch_size,
+        shuffle=True,
         collate_fn=partial(
             collate_fn,
             tokenizer=tokenizer,
             conv_type=args.conv_type,
-            use_mm_start_end=args.use_mm_start_end,
-            # local_rank=args.local_rank,
+            use_mm_start_end=args.use_mm_start_end
         ),
-        config=ds_config,
+        num_workers=args.workers
     )
+
 
     # resume deepspeed checkpoint
     if args.auto_resume and len(args.resume) == 0:
@@ -394,37 +422,51 @@ def main(args):
     # validation dataset
     if val_dataset is not None:
         assert args.val_batch_size == 1
-        val_sampler = torch.utils.data.distributed.DistributedSampler(
-            val_dataset, shuffle=False, drop_last=False
-        )
+        # val_sampler = torch.utils.data.distributed.DistributedSampler(
+        #     val_dataset, shuffle=False, drop_last=False
+        # )
+        # val_loader = torch.utils.data.DataLoader(
+        #     val_dataset,
+        #     batch_size=args.val_batch_size,
+        #     shuffle=False,
+        #     num_workers=args.workers,
+        #     pin_memory=False,
+        #     sampler=val_sampler,
+        #     collate_fn=partial(
+        #         collate_fn,
+        #         tokenizer=tokenizer,
+        #         conv_type=args.conv_type,
+        #         use_mm_start_end=args.use_mm_start_end,
+        #         # local_rank=args.local_rank,
+        #     ),
+        # )
         val_loader = torch.utils.data.DataLoader(
             val_dataset,
             batch_size=args.val_batch_size,
             shuffle=False,
             num_workers=args.workers,
             pin_memory=False,
-            sampler=val_sampler,
             collate_fn=partial(
                 collate_fn,
                 tokenizer=tokenizer,
                 conv_type=args.conv_type,
-                use_mm_start_end=args.use_mm_start_end,
-                # local_rank=args.local_rank,
+                use_mm_start_end=args.use_mm_start_end
             ),
         )
+    
 
     train_iter = iter(train_loader)
     best_score, cur_ciou = -1e9, -1e9
 
     if args.eval_only:
-        giou, ciou = validate(val_loader, model_engine, 0, writer, args, tokenizer)
+        giou, ciou = validate(val_loader, model, 0, writer, args, tokenizer)
         exit()
 
     for epoch in range(args.start_epoch, args.epochs):
         # train for one epoch
         train_iter = train(
             train_loader,
-            model_engine,
+            model,
             epoch,
             scheduler,
             writer,
@@ -454,7 +496,7 @@ def main(args):
             if os.path.exists(save_dir):
                 shutil.rmtree(save_dir)
             torch.distributed.barrier()
-            model_engine.save_checkpoint(save_dir)
+            model.save_checkpoint(save_dir)
 
 
 def train(
@@ -501,17 +543,17 @@ def train(
                 input_dict = next(train_iter)
 
             data_time.update(time.time() - end)
-            input_dict = dict_to_cuda(input_dict)
+            # input_dict = dict_to_cuda(input_dict)
 
-            if args.precision == "fp16":
-                input_dict["images"] = input_dict["images"].half()
-                input_dict["images_clip"] = input_dict["images_clip"].half()
-            elif args.precision == "bf16":
-                input_dict["images"] = input_dict["images"].bfloat16()
-                input_dict["images_clip"] = input_dict["images_clip"].bfloat16()
-            else:
-                input_dict["images"] = input_dict["images"].float()
-                input_dict["images_clip"] = input_dict["images_clip"].float()
+            # if args.precision == "fp16":
+            #     input_dict["images"] = input_dict["images"].half()
+            #     input_dict["images_clip"] = input_dict["images_clip"].half()
+            # elif args.precision == "bf16":
+            #     input_dict["images"] = input_dict["images"].bfloat16()
+            #     input_dict["images_clip"] = input_dict["images_clip"].bfloat16()
+            # else:
+            #     input_dict["images"] = input_dict["images"].float()
+            #     input_dict["images_clip"] = input_dict["images_clip"].float()
             print('input dict: ', input_dict['images_clip'].shape, input_dict['inference'])
             output_dict = model(**input_dict)
 

@@ -6,6 +6,12 @@ vis_output/
 wandb/
 **/ipynb_checkpoints/
 *.ipynb_checkpoints*
+*__pycache__*
+*.run*
+cuda_11.4.2_470.57.02_linux.run
+cuda_11.7.0_515.43.04_linux.run
+checkpoints/
+builds/
 groundingLMM/dataset/final_data/
 groundingLMM/mmcv/
 checkpoints/
