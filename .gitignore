@@ -19,6 +19,6 @@ builds/
 *.run
 *.ipynb_checkpoints
 *.vscode
-*.txt
-install_flash.sh
-check_cuda.sh
+/*.txt
+/install_flash.sh
+/check_cuda.sh
