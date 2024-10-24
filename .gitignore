@@ -27,3 +27,5 @@ trash/
 log_slurm/
 .ipynb_checkpoints/
 .vscode/
+.ipynb_checkpoints/*
+.vscode/*
