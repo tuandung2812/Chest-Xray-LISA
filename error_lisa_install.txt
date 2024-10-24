@@ -1,5 +1,0 @@
-
-CondaError: Run 'conda init' before 'conda activate'
-
-WARNING: You are using pip version 21.3.1; however, version 24.2 is available.
-You should consider upgrading via the '/home/user01/miniconda3/envs/lisa_1/bin/python -m pip install --upgrade pip' command.

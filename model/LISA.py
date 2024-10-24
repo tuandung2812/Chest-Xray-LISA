@@ -242,7 +242,7 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
             length = input_ids.shape[0]
             assert images_clip.shape[0] == 1
             images_clip_extend = images_clip.expand(length, -1, -1, -1).contiguous()
-
+            output = [ ]
             output_hidden_states = []
             output_logits=  []
             output_ce_losses = []
@@ -262,7 +262,7 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
                 output_hidden_states.append(output_i.hidden_states[-1])
                 output_logits.append(output_i.logits)
                 output_ce_losses.append(output_i.loss.item())
-                print('output_i ',output_i.loss)
+                # print('output_i ',outpu't_i.loss)
                 torch.cuda.empty_cache()
 
             output_hidden_states_list = []
@@ -271,14 +271,20 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
             output_hidden_states = output_hidden_states_list
             output = None
             output_ce_losses = torch.Tensor(output_ce_losses)
-            print('CE Loss: ',output_ce_losses, output_ce_losses.shape)
+            # print('CE Loss: ',output_ce_losses, output_ce_losses.shape)
 
             output_logits_list = []
             output_logits_level = torch.cat(output_logits, dim=0)
             output_logits = output_logits_level[0]
             # print(output_logits.shape)
             output_ids  = torch.argmax(output_logits, dim=-1)
-            # print('output_ids: ', output_ids.shape, output_ids)
+            output_ids = output_ids.unsqueeze(0)
+
+            filtered_output = torch.cat([torch.zeros((output_ids.shape[0], 255)).bool().cuda(),
+                                            (labels[:,1:] != -100).int(),
+                                            torch.zeros((seg_token_mask.shape[0], 1)).bool().cuda()],dim=1)
+            output_ids = output_ids[filtered_output == 1]
+
             output = None
         else:
             images_clip_list = []
@@ -372,9 +378,13 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
         gt_masks = masks_list
 
         if inference:
+            print('filtered output_ids: ',output_ids)
             return {
                 "pred_masks": pred_masks,
                 "gt_masks": gt_masks,
+                'output_ids': output_ids ,
+                'ce_loss': output_ce_losses
+
             }
 
         output = model_output.logits
@@ -413,7 +423,7 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
             return {
                 "pred_masks": pred_masks,
                 "gt_masks": gt_masks,
-                'output_ids': output_ids
+                'output_ids': output_ids,
                 "loss": loss,
                 "ce_loss": ce_loss,
                 "mask_bce_loss": mask_bce_loss,

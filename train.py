@@ -22,6 +22,7 @@ import time
 from functools import partial
 import wandb
 
+
 def parse_args(args):
     parser = argparse.ArgumentParser(description="LISA Model Training")
     parser.add_argument("--local_rank", default=0, type=int, help="node rank")
@@ -651,20 +652,8 @@ def validate(val_loader, model, epoch, writer, args, tokenizer):
 
         text = tokenizer.decode(output_ids)
         
-        # truncate_position = text.find("</s>")
-
-        # Nếu tìm thấy token </s>, cắt bỏ phần văn bản sau đó
-        # if truncate_position != -1:
-        #     truncated_text = text[:truncate_position]
-        # else:
-        #     truncated_text = text  # Không tìm thấy </s>, giữ nguyên văn bản
         truncated_text = text
-        # print("Text: ", truncated_text)
-        # print('tokens: ', truncated_text)
-        # output_list = (pred_masks[0] > 0).int()
-        # assert len(pred_masks) == 1
-        # if i % 200 == 0:
-        if not args.disable_wandb and (idx % 10 == 0):
+        if not args.disable_wandb and (idx % 20 == 0):
             # print(input_dict["conversation_list"])
             if not args.text_only:
                 wandb.log({'val/examples': [wandb.Image(input_dict["images"][0].permute(1, 2, 0).float().cpu().numpy(),caption = 'image'), 
