@@ -66,6 +66,8 @@ def parse_args(args):
     parser.add_argument("--exp_name", default="lisa", type=str)
     parser.add_argument("--epochs", default=10, type=int)
     parser.add_argument("--steps_per_epoch", default=500, type=int)
+    parser.add_argument("--steps_per_eval", default=500, type=int)
+
     parser.add_argument(
         "--batch_size", default=2, type=int, help="batch size per device per step"
     )
@@ -105,6 +107,9 @@ def parse_args(args):
         type=str,
         choices=["llava_v1", "llava_llama_2"],
     )
+    parser.add_argument("--wandb_project_name", default='VQA VinDr', type=str)
+    parser.add_argument("--wandb_run_name", default='lisa_vindr', type=str)
+
     parser.add_argument("--disable_wandb", action = "store_true",default=False)
     parser.add_argument("--text_only", action="store_true", default=False)
 
@@ -116,7 +121,7 @@ def main(args):
     
     if not args.disable_wandb:
         wandb.login(key="7235cfca755064fb1f7c2fc76fe314db904f37b8")
-        wandb.init(project="VinDr VQA - Debug", name=args.exp_name)
+        wandb.init(project=args.wandb_project_name, name=args.wandb_run_name)
         conversation_table = wandb.Table(columns=["question/answer"]) 
         wandb.log({"Conversation": conversation_table})
 
@@ -605,7 +610,7 @@ def validate(val_loader, model, epoch, writer, args, tokenizer):
     data_for_wb = []
     for idx, input_dict in enumerate(tqdm.tqdm(val_loader)):
         # print('input dict: ', input_dict['image_clip'].shape)
-        if idx == 500:
+        if idx == args.steps_per_val:
             break
         torch.cuda.empty_cache()
 
