@@ -192,31 +192,50 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
         # Obtain the image embeddings using the SAM image encoder
         # images DIM = (B, 3C, 1024, 1024)
         image_embeddings = self.get_visual_embs(images) # DIM [B, 256, 64, 64]
-        print('image_embeddings: ', image_embeddings.shape)
+        # print('image_embeddings: ', image_embeddings.shape)
         batch_size = image_embeddings.shape[0]
-        print('offset: ', offset)
+        # print('offset: ', offset)
         assert batch_size == len(offset) - 1    
 
         # Define the seg token
-        print('input_ids: ', input_ids.shape)
+        # print('input_ids: ', input_ids.shape)
         seg_token_mask = input_ids[:, 1:] == self.seg_token_idx
-        print('seg_token_mask: ', seg_token_mask.shape, seg_token_mask)
-
-        seg_token_mask = torch.cat(
-            [
-                seg_token_mask,
-                torch.zeros((seg_token_mask.shape[0], 1)).bool().cuda(),
-            ],
-            dim=1,
-        )
-        print('seg_token_mask 2: ', seg_token_mask.shape, seg_token_mask)
+        # print('seg_token_mask: ', seg_token_mask.shape, seg_token_mask)
+        # Fix later
+        try:
+              seg_token_mask = torch.cat(
+                [
+                    seg_token_mask,
+                    torch.zeros((seg_token_mask.shape[0], 1)).bool().cuda(),
+                ],
+                dim=1,
+            )
+        except:
+              seg_token_mask = torch.cat(
+                [
+                    seg_token_mask,
+                    torch.zeros((seg_token_mask.shape[0], 1)).bool(),
+                ],
+                dim=1,
+            )
+        # print('seg_token_mask 2: ', seg_token_mask.shape, seg_token_mask)
 
         # hack for IMAGE_TOKEN_INDEX (we suppose that there is only one image, and it is in the front)
-        seg_token_mask = torch.cat(
-            [torch.zeros((seg_token_mask.shape[0], 255)).bool().cuda(), seg_token_mask],
-            dim=1,
-        )
-        print('seg_token_mask 3: ', seg_token_mask.shape, seg_token_mask)
+        try:
+            seg_token_mask = torch.cat(
+                [torch.zeros((seg_token_mask.shape[0], 255)).bool().cuda(), seg_token_mask],
+                dim=1,
+            )
+        except:
+              seg_token_mask = torch.cat(
+                [
+                    seg_token_mask,
+                    torch.zeros((seg_token_mask.shape[0], 1)).bool(),
+                ],
+                dim=1,
+            )
+
+        # print('seg_token_mask 3: ', seg_token_mask.shape, seg_token_mask)
 
         if inference:
             n_batch = 1

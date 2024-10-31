@@ -87,7 +87,9 @@ class LlavaMistralForCausalLM(MistralForCausalLM, LlavaMetaForCausalLM):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict
         )
+    # beam size x batch size, seq_len + len_image + 1, num_tokens
 
+    
     @torch.no_grad()
     def generate(
         self,

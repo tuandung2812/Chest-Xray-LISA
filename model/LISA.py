@@ -16,7 +16,7 @@ from utils.utils import (DEFAULT_IM_END_TOKEN, DEFAULT_IM_START_TOKEN,
 from .segment_anything import build_sam_vit_h , build_sam_vit_b
 from .llava.model.language_model.llava_mistral import (LlavaMistralForCausalLM,
                                                      LlavaMistralModel)
-
+from loss_fn import caculate_loss_att_fixed_cn
 
 def dice_loss(
     inputs: torch.Tensor,
@@ -279,9 +279,16 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
             # print(output_logits.shape)
             output_ids  = torch.argmax(output_logits, dim=-1)
             # print('output_ids: ', output_ids.shape, output_ids)
+            output_ids = output_ids.unsqueeze(0)
+
+            filtered_output = torch.cat([torch.zeros((output_ids.shape[0], 255)).bool().cuda(),
+                                            (labels[:,1:] != -100).int(),
+                                            torch.zeros((seg_token_mask.shape[0], 1)).bool().cuda()],dim=1)
+            output_ids = output_ids[filtered_output == 1]
             output = None
         else:
             images_clip_list = []
+            attention_weights=  []
             for i in range(len(offset) - 1):
                 start_i, end_i = offset[i], offset[i + 1]
                 images_clip_i = (
@@ -300,9 +307,10 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
                 input_ids=input_ids,
                 labels=labels,
                 output_hidden_states=True,
+                output_attentions=True  # Enable attention output
             )
             output_hidden_states = output.hidden_states
-
+            attention_weights.append(output_i.attentions)
         hidden_states = []
 
         assert len(self.model.text_hidden_fcs) == 1
@@ -372,9 +380,12 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
         gt_masks = masks_list
 
         if inference:
+    
             return {
+                "output_ids": output_ids,
                 "pred_masks": pred_masks,
                 "gt_masks": gt_masks,
+                'ce_loss': output_ce_losses
             }
 
         output = model_output.logits
@@ -413,7 +424,7 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
             return {
                 "pred_masks": pred_masks,
                 "gt_masks": gt_masks,
-                'output_ids': output_ids
+                'output_ids': output_ids,
                 "loss": loss,
                 "ce_loss": ce_loss,
                 "mask_bce_loss": mask_bce_loss,
@@ -428,6 +439,7 @@ class LISAForCausalLM(LlavaMistralForCausalLM):
             "mask_bce_loss": mask_bce_loss,
             "mask_dice_loss": mask_dice_loss,
             "mask_loss": mask_loss,
+            "attention_weights": attention_weights  # Include attention weights
         }
 
     def evaluate(

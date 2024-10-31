@@ -44,14 +44,14 @@ deepspeed --master_port 6000 train.py \
   --dataset "reason_seg" \
   --sample_rates "1" \
   --local_rank 0 \
-  --batch_size 8 \
+  --batch_size 2 \
   --epochs 30 \
   --lr 0.00005 \
   --print_freq 1 \
-  --steps_per_epoch 1 \
+  --steps_per_epoch 300 \
    --ce_loss_weight 1.0 \
    --dice_loss_weight 1.0 \
    --bce_loss_weight 1.0 \
    --grad_accumulation_steps 2 \
     --model_max_length 2048 \
-    --exp_name "full_medsam_vindr_llavamed_bs_16_lr_5e-5"
+    --exp_name "regularize_medsam_vindr_llavamed_bs_16_lr_5e-5"
