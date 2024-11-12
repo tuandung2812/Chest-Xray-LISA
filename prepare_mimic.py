@@ -5,8 +5,8 @@ from tqdm import tqdm
 from pycocotools import mask
 from skimage import measure
 
-train_path = 'mimic_qa_train_resampled.json'
-test_path = 'mimic_qa_test_resampled.json'
+train_path = 'process_mimic/mimic_qa_train_resampled.json'
+test_path = 'process_mimic/mimic_qa_test_resampled.json'
 segment_path ='/home/user01/aiotlab/dung_paper/groundingLMM/LISAMed/dataset/mimic'
 
 
