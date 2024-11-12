@@ -126,7 +126,7 @@ if __name__ == "__main__":
         return txt_files
 
     # Sử dụng
-    folder_path = "/home/user01/aiotlab/dung_paper/groundingLMM/LISAMed/dataset/VinDr/VinDr_MedGLaMM_caption/train_png_16bit"
+    folder_path = "./dataset/VinDr/VinDr_MedGLaMM_caption/train_png_16bit"
     txt_files = get_txt_files(folder_path)
     # print(txt_files)
     # for file in txt_files:
