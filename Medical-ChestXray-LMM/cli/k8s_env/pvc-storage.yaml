@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hieu-pvc-cvpr
+  namespace: aiml-liu-research # Change this namespace accrodingly
+spec:
+  accessModes:
+    - ReadWriteMany # So you can run multiple training with the same PVC
+  resources:
+    requests:
+      storage: 1000Gi

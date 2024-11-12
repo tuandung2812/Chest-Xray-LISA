@@ -14,20 +14,22 @@ import random
 
 QUESTION_TEMPLATES = {
 'anatomy_disease_yes_no' : [
-    # "Is there {disease} in the {anatomy} of this patient?",
-    # "Does {anatomy} suffer from {disease}?",
-    # "Does the patient have {disease} at {anatomy}?",
+    "Is there {disease} in the {anatomy} of this patient?",
+    "Does {anatomy} suffer from {disease}?",
+    "Does the patient have {disease} at {anatomy}?",
     
-    "List all abnormalities in {anatomy}?",
-    "What abnormalities are present in {anatomy}?",
-    "Does {anatomy} suffer from any abnormalities?",
+    # "List all abnormalities in {anatomy}?",
+    # "What abnormalities are present in {anatomy}?",
+    # "Does {anatomy} suffer from any abnormalities?",
+    # "List all abnormalities in {anatomy}?",
+    # "What abnormalities are present in {anatomy}?",
+    # "What abnormalities does {anatomy} suffer from?",
 
 ],
 'anatomy_open': [
-    "Are there any observations at {anatomy}?",
-    "Does the patient's {anatomy} have any abnormalities?",
-    # "Is there anything wrong with {anatomy}?",
-    "Does {anatomy} suffer from any abnormalities?"
+    "List all abnormalities in {anatomy}?",
+    "What abnormalities are present in {anatomy}?",
+    "What abnormalities does {anatomy} suffer from?",
 ],
 
 'adversarial_easy_at_anatomy_disease_yes_no' : [
@@ -59,8 +61,32 @@ QUESTION_TEMPLATES = {
     # "Is there anything wrong with {anatomy}?",
     "List all abnormalities in {anatomy}?",
     "What abnormalities are present in {anatomy}?",
-    "Does {anatomy} suffer from any abnormalities?",
+    "What abnormalities does {anatomy} suffer from?",
+
+    # "Does {anatomy} suffer from any abnormalities?",
 ],
+
+'adversarial_finding_open': [
+    # "Are there any observations at {anatomy}?",
+    # "Does the patient's {anatomy} have any abnormalities?",
+    # "Is there anything wrong with {anatomy}?",
+    "Does this patient have {disease}?",
+    "Is {disease} present in this image?",
+
+    # "Does {anatomy} suffer from any abnormalities?",
+],
+
+    
+'finding_open': [
+    # "Are there any observations at {anatomy}?",
+    # "Does the patient's {anatomy} have any abnormalities?",
+    # "Is there anything wrong with {anatomy}?",
+    "Does this patient have {disease}?",
+    "Is {disease} present in this image?",
+
+    # "Does {anatomy} suffer from any abnormalities?",
+],
+
 
 
 }
@@ -68,7 +94,7 @@ QUESTION_TEMPLATES = {
 ANSWER_TEMPLATES = {
 'anatomy_disease_yes_no' : "The location of {anatomy} is at <seg>. The answer is Yes",
 
-'anatomy_open': "The location of {anatomy} is at <seg>. It suffers from {disease}",
+'anatomy_open': "The location of {anatomy} is at <seg>. It suffers from ",
 
 'adversarial_easy_at_anatomy_disease_yes_no' : "The location of {anatomy} is at <seg>. The answer is No",
 
@@ -85,6 +111,7 @@ ANSWER_TEMPLATES = {
 # Example usage
 if __name__ == "__main__":
     import json
+    import numpy as np
     random.seed(42)
     np.random.seed(42)
     import os
@@ -99,7 +126,7 @@ if __name__ == "__main__":
         return txt_files
 
     # Sử dụng
-    folder_path = "/home/user01/aiotlab/dung_paper/groundingLMM/dataset/mimic_processed/VinDr_MedGLaMM_caption/train_png_16bit"
+    folder_path = "/home/user01/aiotlab/dung_paper/groundingLMM/LISAMed/dataset/VinDr/VinDr_MedGLaMM_caption/train_png_16bit"
     txt_files = get_txt_files(folder_path)
     # print(txt_files)
     # for file in txt_files:
@@ -211,11 +238,27 @@ if __name__ == "__main__":
                                        "grounded_answer":grounded_answer, 'anat': pos_anat})
                 
                 anatomy_open_question = random.choice(QUESTION_TEMPLATES['anatomy_open']).format(anatomy=pos_anat)
-                grounded_answer = ANSWER_TEMPLATES['anatomy_open'].format(anatomy=pos_anat, disease=disease)
+                # print(anatomy_open_question)
+                grounded_answer = ANSWER_TEMPLATES['anatomy_open'].format(anatomy=pos_anat)
+                answer = "It suffers from"
+                for i in range(len(anat_mappings[pos_anat])):
+                    disease = anat_mappings[pos_anat][i]
+                    if len(anat_mappings[pos_anat]) == 1:
+                        grounded_answer += f' {disease}.'
+                        answer +=  f" {disease}."
+                    elif i != len(anat_mappings[pos_anat]) - 1:
+                        grounded_answer += f' {disease},'
+                        answer +=  f" {disease},"
+                    else:
+                        grounded_answer += f' {disease}.'
+                        answer +=  f" {disease}."
+
+                # print(grounded_answer)
+                # grounded_answer = ANSWER_TEMPLATES['anatomy_open'].format(anatomy=pos_anat, disease=disease)
                 questions_data[image_id].append({'type': 'anatomy_open',
                                        'finegrained_type':  'anatomy_open', 
                                        'question':anatomy_open_question,
-                                       "answer":"It suffers from {disease}".format(disease=disease),
+                                       "answer":answer,
                                        "grounded_answer":grounded_answer, 'anat': pos_anat})
 
                 # print(disease, pos_anat)
@@ -276,8 +319,31 @@ if __name__ == "__main__":
                         'question': easy_adv_disease_question,
                         'answer': 'No',
                         'grounded_answer': grounded_answer_easy, 'anat': anat})
+                
+                disease = random.choice(list(disease_mappings.keys()))
+                disease_open_question = random.choice(QUESTION_TEMPLATES['finding_open']).format(disease=disease)
+                anats = disease_mappings[disease]
+                # print(anatomy_open_question)
+                # grounded_answer = ANSWER_TEMPLATES['disea_open'].format(anatomy=pos_anat)
+                grounded_answer = 'The location of '
+                answer = "Yes"
+                for i in range(len(anats)):
+                    anat = anats[i]
+                    # if i != len(anats) - 1:
+                    grounded_answer += f' {anat},'
+                        # answer +=  f" {disease},"
+                    # else:
+                    #     grounded_answer += f' {anat}.'
+                        # answer +=  f" {disease}."
+                grounded_answer += ' is at [SEG]. The answer is Yes'
+                # print(grounded_answer)
+                # grounded_answer = ANSWER_TEMPLATES['anatomy_open'].format(anatomy=pos_anat, disease=disease)
+                questions_data[image_id].append({'type': 'finding',
+                                       'finegrained_type':  'finding_open', 
+                                       'question':disease_open_question,
+                                       "answer":answer,
+                                       "grounded_answer":grounded_answer, 'anat': ", ".join(anats) })
 
-                                                     
                 # print(hard_neg_anats, easy_neg_anats)
                 # print(neg_anats)
                 
@@ -323,15 +389,26 @@ if __name__ == "__main__":
             
             # 'adversarial_anatomy_open'
             anat = random.choice(all_anats)
-            open_question = random.choice(QUESTION_TEMPLATES['adversarial_anatomy_open']).format(anatomy=hard_anat)
+            open_question = random.choice(QUESTION_TEMPLATES['adversarial_anatomy_open']).format(anatomy=anat)
             # print("open: ", open_question)
-            grounded_open_answer = ANSWER_TEMPLATES['adversarial_anatomy_open'].format(anatomy=hard_anat)
+            grounded_open_answer = ANSWER_TEMPLATES['adversarial_anatomy_open'].format(anatomy=anat)
             
             questions_data[image_id].append({'type': 'adversarial_anatomy_open',
                                        'finegrained_type':  'adversarial_anatomy_open', 
                                        'question':open_question,
                                        "answer": "It suffers from no abnormalities",
-                                       "grounded_answer": grounded_open_answer, 'anat': hard_anat})
+                                       "grounded_answer": grounded_open_answer, 'anat': anat})
+
+            disease = random.choice(all_diseases)
+            open_question = random.choice(QUESTION_TEMPLATES['adversarial_finding_open']).format(disease=disease)
+            # print("open: ", open_question)
+            grounded_open_answer = "No"
+            
+            questions_data[image_id].append({'type': 'adversarial_finding_open',
+                                       'finegrained_type':  'adversarial_finding_open', 
+                                       'question':open_question,
+                                       "answer": "No",
+                                       "grounded_answer": grounded_open_answer, 'anat': None})
 
     # print(questions_data)      
     file_name = 'vindr_qa_data.json'

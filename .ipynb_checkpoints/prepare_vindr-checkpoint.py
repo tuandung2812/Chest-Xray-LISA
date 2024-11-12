@@ -5,12 +5,12 @@ from tqdm import tqdm
 from pycocotools import mask
 from skimage import measure
 
-train_path = 'process_mimic/vindr_qa_data_train_newformat.json'
-test_path = 'process_mimic/vindr_qa_data_test_newformat.json'
+train_path = 'vindr_qa_train_resampled.json'
+test_path = 'vindr_qa_test_resampled.json'
 segment_path ='./dataset/VinDr/VinDr_MedGLaMM/train_png_16bit'
 
 
-output_dir = './dataset/VinDr/annotation_final/'
+output_dir = './dataset/VinDr/annotation_resampled_new_2/'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
@@ -25,7 +25,7 @@ if not os.path.exists(test_output_dir):
     os.makedirs(test_output_dir)
 
     
-mask_dir = './dataset/VinDr/mask_final/'
+mask_dir = './dataset/VinDr/mask_resampled_neư_2/'
 if not os.path.exists(mask_dir):
     os.makedirs(mask_dir)
 
@@ -64,47 +64,112 @@ ANATOMY_TO_ID_MAPPINGS = {
     'Spine': 8,
     'Heart': 9
 }
-train_segment_data = []
-with open(train_path) as f:
-    train_data = json.load(f)
-    
-# print(train_data)
-for qa in tqdm(train_data):
-    image_id = qa['image_id']
-    file_id = qa['id']
-    
-    file_dict = {}
-    question, answer, anat = qa['question'], qa['grounded_answer'], qa['anat']
-    
-    file_dict['text'] = question
-    file_dict['answer'] = answer
-    file_dict['is_sentence'] = True
-    file_dict['shapes'] = [ {
-      "label": "target",
-      "labels": [
-        "target"
-      ],
-      "shape_type": "polygon",
-      "image_name": f"{image_id}.jpg"}]
-    anat_id = ANATOMY_TO_ID_MAPPINGS[anat]
-    if '-checkpoint' in image_id:
-        image_id = image_id.replace('-checkpoint','')
-    segment_file = os.path.join(segment_path, f'{image_id}.json')
-    # print(segment_file)
-    with open(os.path.join(train_output_dir,f'{file_id}.json'),'w') as f:
-        json.dump(file_dict,f)
 
-    with open(segment_file) as f:
-        segment_data = json.load(f)
-    for annotation in segment_data['annotations']:
-        # print(annotation)
-        if annotation['category_id'] == anat_id:
-            rle_mask = annotation['segmentation']
-            binary_mask = mask.decode(rle_mask)
-            print(binary_mask.shape)
-            mask_path = os.path.join(train_mask_dir, f'{file_id}.npy')
-            np.save(mask_path, binary_mask)
 
+def merge_rle_encodings(rle_list):
+    # Decode each RLE mask into a binary mask
+    masks = [mask.decode(rle).astype(bool) for rle in rle_list]
+    
+    # Combine the binary masks into a single binary mask (logical OR)
+    merged_mask = np.any(masks, axis=0)
+    
+    # Encode the merged mask back to RLE
+    # merged_rle = mask_utils.encode(np.asfortranarray(merged_mask.astype(np.uint8)))
+    
+    return merged_mask
+
+
+# train_segment_data = []
+# with open(train_path) as f:
+#     train_data = json.load(f)
+    
+# # print(train_data)
+# for qa in tqdm(train_data):
+#     # print(qa)
+#     image_id = qa['image_id']
+#     file_id = qa['id']
+    
+#     file_dict = {}
+#     question, answer, anat, type_qa = qa['question'], qa['grounded_answer'], qa['anat'], qa['type']
+#     # print(anat)
+#     file_dict['text'] = question
+#     file_dict['answer'] = answer
+#     file_dict['is_sentence'] = True
+#     file_dict['shapes'] = [ {
+#       "label": "target",
+#       "labels": [
+#         "target"
+#       ],
+#       "shape_type": "polygon",
+#       "image_name": f"{image_id}.jpg"}]
+#     if '-checkpoint' in image_id:
+#         image_id = image_id.replace('-checkpoint','')
+    
+#     segment_file = os.path.join(segment_path, f'{image_id}.json')
+#     with open(segment_file) as f:
+#         segment_data = json.load(f)
+#     # print(segment_data['annotations'][0].keys())
+
+#     # print(segment_file)
+#     with open(os.path.join(train_output_dir,f'{file_id}.json'),'w') as f:
+#         json.dump(file_dict,f)
+#     # print(type_qa)
+#     if type_qa == 'adversarial_finding_open':
+#         exemplar_mask = segment_data['annotations'][0]['segmentation']
+#         exemplar_binary_mask = mask.decode(exemplar_mask)
+#         binary_mask = np.zeros(exemplar_binary_mask.shape)
+#         # print(binary_mask.shape)
+#         mask_path = os.path.join(train_mask_dir, f'{file_id}.npz')
+#         # np.save(mask_path, binary_mask)
+#         np.savez_compressed(mask_path, binary_mask = binary_mask)
+
+# #         pass
+#     elif type_qa == 'finding':
+#         # print('anat: ',anat)
+        
+#         if ',' not in anat:
+#             anat_id = ANATOMY_TO_ID_MAPPINGS[anat]
+#             for annotation in segment_data['annotations']:
+#                 # print(annotation)
+#                 if annotation['category_id'] == anat_id:
+#                     rle_mask = annotation['segmentation']
+#                     binary_mask = mask.decode(rle_mask)
+#                     # print(binary_mask.shape)
+#                     mask_path = os.path.join(train_mask_dir, f'{file_id}.npz')
+#                     # np.save(mask_path, binary_mask)
+#                     np.savez_compressed(mask_path, binary_mask = binary_mask)
+#         else:
+#             print('anat: ',anat)
+#             anatomies = anat.split(',')
+#             anatomies = [anat.strip() for anat in anatomies]
+#             rle_list = []
+#             for anat in anatomies:
+#                 for annotation in segment_data['annotations']:
+#                     # print(annotation)
+#                     if annotation['category_id'] == anat_id:
+#                         rle_mask = annotation['segmentation']
+#                         rle_list.append(rle_mask)
+#                         # break
+#             binary_mask = merge_rle_encodings(rle_list)
+#             mask_path = os.path.join(train_mask_dir, f'{file_id}.npz')
+#             # np.save(mask_path, binary_mask)
+#             np.savez_compressed(mask_path, binary_mask = binary_mask)
+#             # try:
+
+#             # print(anatomies)
+#             # print(binary_mask.shape)
+
+#     else:
+#         anat_id = ANATOMY_TO_ID_MAPPINGS[anat]
+#         for annotation in segment_data['annotations']:
+#             # print(annotation)
+#             if annotation['category_id'] == anat_id:
+#                 rle_mask = annotation['segmentation']
+#                 binary_mask = mask.decode(rle_mask)
+#                 # print(binary_mask.shape)
+#                 mask_path = os.path.join(train_mask_dir, f'{file_id}.npz')
+#                 # np.save(mask_path, binary_mask)
+#                 np.savez_compressed(mask_path, binary_mask = binary_mask)
             # try:
             #     contours = measure.find_contours(binary_mask, level=0.5)[0]
             #     points = contours.tolist()
@@ -129,12 +194,13 @@ with open(test_path) as f:
     test_data = json.load(f)
 
 for qa in tqdm(test_data):
+    # print(qa)
     image_id = qa['image_id']
     file_id = qa['id']
     
     file_dict = {}
-    question, answer, anat = qa['question'], qa['grounded_answer'], qa['anat']
-    
+    question, answer, anat, type_qa = qa['question'], qa['grounded_answer'], qa['anat'], qa['type']
+    # print(anat)
     file_dict['text'] = question
     file_dict['answer'] = answer
     file_dict['is_sentence'] = True
@@ -145,30 +211,71 @@ for qa in tqdm(test_data):
       ],
       "shape_type": "polygon",
       "image_name": f"{image_id}.jpg"}]
-    anat_id = ANATOMY_TO_ID_MAPPINGS[anat]
     if '-checkpoint' in image_id:
         image_id = image_id.replace('-checkpoint','')
+    
     segment_file = os.path.join(segment_path, f'{image_id}.json')
+    with open(segment_file) as f:
+        segment_data = json.load(f)
+    # print(segment_data['annotations'][0].keys())
+
     # print(segment_file)
     with open(os.path.join(test_output_dir,f'{file_id}.json'),'w') as f:
         json.dump(file_dict,f)
+    # print(type_qa)
+    if type_qa == 'adversarial_finding_open':
+        exemplar_mask = segment_data['annotations'][0]['segmentation']
+        exemplar_binary_mask = mask.decode(exemplar_mask)
+        binary_mask = np.zeros(exemplar_binary_mask.shape)
+        # print(binary_mask.shape)
+        mask_path = os.path.join(test_mask_dir, f'{file_id}.npz')
+        # np.save(mask_path, binary_mask)
+        np.savez_compressed(mask_path, binary_mask = binary_mask)
 
-    with open(segment_file) as f:
-        segment_data = json.load(f)
-    for annotation in segment_data['annotations']:
-        # print(annotation)
-        if annotation['category_id'] == anat_id:
-            rle_mask = annotation['segmentation']
-            binary_mask = mask.decode(rle_mask)
-            mask_path = os.path.join(test_mask_dir, f'{file_id}.npy')
-            np.save(mask_path, binary_mask)
+#         pass
+    elif type_qa == 'finding':
+        # print('anat: ',anat)
+        
+        if ',' not in anat:
+            anat_id = ANATOMY_TO_ID_MAPPINGS[anat]
+            for annotation in segment_data['annotations']:
+                # print(annotation)
+                if annotation['category_id'] == anat_id:
+                    rle_mask = annotation['segmentation']
+                    binary_mask = mask.decode(rle_mask)
+                    # print(binary_mask.shape)
+                    mask_path = os.path.join(test_mask_dir, f'{file_id}.npz')
+                    # np.save(mask_path, binary_mask)
+                    np.savez_compressed(mask_path, binary_mask = binary_mask)
+        else:
+            print('anat: ',anat)
+            anatomies = anat.split(',')
+            anatomies = [anat.strip() for anat in anatomies]
+            rle_list = []
+            for anat in anatomies:
+                for annotation in segment_data['annotations']:
+                    # print(annotation)
+                    if annotation['category_id'] == anat_id:
+                        rle_mask = annotation['segmentation']
+                        rle_list.append(rle_mask)
+                        # break
+            binary_mask = merge_rle_encodings(rle_list)
+            mask_path = os.path.join(test_mask_dir, f'{file_id}.npz')
+            # np.save(mask_path, binary_mask)
+            np.savez_compressed(mask_path, binary_mask = binary_mask)
             # try:
-            #     contours = measure.find_contours(binary_mask, level=0.5)[0]
-            #     # print(contours)
-            #     # points = contours
-            #     points = contours.tolist()
-            #     file_dict['shapes'][0]['points'] = points
-            #     with open(os.path.join(test_output_dir,f'{file_id}.json'),'w') as f:
-            #         json.dump(file_dict,f)
-            # except:
-            #     pass
+
+            # print(anatomies)
+            # print(binary_mask.shape)
+
+    else:
+        anat_id = ANATOMY_TO_ID_MAPPINGS[anat]
+        for annotation in segment_data['annotations']:
+            # print(annotation)
+            if annotation['category_id'] == anat_id:
+                rle_mask = annotation['segmentation']
+                binary_mask = mask.decode(rle_mask)
+                # print(binary_mask.shape)
+                mask_path = os.path.join(test_mask_dir, f'{file_id}.npz')
+                # np.save(mask_path, binary_mask)
+                np.savez_compressed(mask_path, binary_mask = binary_mask)

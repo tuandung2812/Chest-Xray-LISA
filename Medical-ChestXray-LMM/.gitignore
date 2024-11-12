@@ -1,0 +1,23 @@
+# credential
+*private
+.env
+.git
+.vscode
+
+# folders
+checkpoints
+model_registry
+opensources
+tmp
+wandb
+
+# compile
+__pycache__
+
+# files
+*.log
+*.pth
+*.pt
+*.csv
+*.tsv
+*info

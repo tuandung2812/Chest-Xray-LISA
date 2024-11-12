@@ -1,0 +1,59 @@
+version_name: LISA-VQA-VinDr-MedSAM-LLaVAMed
+train:
+    dirpath_ckpt: /mnt/12T/01_hieu/Medical-ChestXray-Dataset-for-LMM/checkpoints
+    epoch:
+        start: 0
+        end: 30
+    batch_size: 42
+    do_validate: True
+    verbosity: 2
+    print_freq: 1
+debug:
+    steps_per_val: -1000000
+infrastructure:
+    device: cuda
+    local_rank: 0
+    num_workers: 4
+    seed: 42
+dataset:
+    pixel_mean: [123.675, 116.28, 103.53]
+    pixel_std: [58.395, 57.12, 57.375]
+    conversation_template: default_medical
+    visual_model_input_size: 1024
+    ignore_label: 255
+    dirpath_labels: /mnt/12T/01_hieu/VLM/VinVQA
+    dirpath_images: /mnt/12T/01_hieu/VLM/VinVQA/jpg
+model:
+    tokenizer:
+        version: microsoft/llava-med-v1.5-mistral-7b
+        model_max_length: 2048
+        use_mm_start_end: False
+        input_size: 1024
+    visual_encoder:
+        hf_visual_model_id: openai/clip-vit-large-patch14
+    lmm:
+        train_mask_decoder: False
+        out_dim: 256
+        ce_loss_weight: 1.0
+        dice_loss_weight: 1.5
+        bce_loss_weight: 1.5
+        vision_pretrained: /mnt/12T/02_duong/Medical-ChestXray-LMM/model_registry/medsam/medsam_vit_b.pth
+        vision_tower: openai/clip-vit-large-patch14
+        use_mm_start_end: False
+        precision: bf16
+        version: microsoft/llava-med-v1.5-mistral-7b
+        eval_only: False
+        lora_r: 8
+        lora_alpha: 16
+        lora_dropout: 0.05
+        lora_target_modules: q_proj,v_proj
+    optimizer:
+        grad_accumulation_steps: 2
+        lr: 0.00005
+        beta1: 0.9
+        beta2: 0.95
+    criterion:
+monitor:
+    disable_wandb: True
+    project_name: MedLMM-GroundingConversationGeneration
+    run_name: LISA-VQA-VinDr-MedSAM-LLaVAMed

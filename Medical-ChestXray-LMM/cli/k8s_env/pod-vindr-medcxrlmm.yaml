@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hieu-tms-masamkist-pod # Your training pod's name
+  namespace: aiml-liu-research # Your supervisor's namespace
+spec:
+  backoffLimit: 0   # add this line so --> If your pod failed, the training job will stop.
+  template:  
+    spec:
+      restartPolicy: Never
+      volumes:
+        - name: shared-memory # This is to resolve the dataloader OOM issue. rm /data/exp02 -r && 
+          emptyDir:
+            medium: Memory
+        - name: dataset-volume # Your PVC name
+          persistentVolumeClaim:
+            claimName: hieu-tms-pvc # your PVC name
+      containers:
+        - name: tumor-segmentation-ml-dxg # It is recommended to name your container according to the project
+          image: antimachinee/tumor-segmentation-ml-dxg:latest
+          stdin: true
+          tty: true
+          command: ["/bin/bash", "-c"]
+          args: 
+            - sleep 30d
+            - |
+              python train.py --config configs/MASAM/cfg-MASAM-KIST.yaml
+          resources:
+            limits:
+              nvidia.com/gpu: 2  # If you are doing debug & no need of GPUs, Please comment-out this line. DO NOT PUT '0' IN THIS SECTION
+              cpu: 16000m # e.g If you are running a 2 GPUs job, change this value to 8
+              memory: 160Gi # e.g If you are running a 2 GPUs job, change this value to 80
+          volumeMounts:
+            - mountPath: /home
+              name: dataset-volume
+            - name: shared-memory
+              mountPath: /dev/shm
+          env:
+            - name: WANDB_API_KEY
+              valueFrom:
+                  secretKeyRef:
+                     name: hieu-tms-wandb-api-key
+                     key: token
+      imagePullSecrets:
+        - name: hieu-tms-docker-token

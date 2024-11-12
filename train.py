@@ -532,6 +532,7 @@ def train(
             model.backward(loss)
             model.step()
 
+
             # measure elapsed time
             batch_time.update(time.time() - end)
             end = time.time()
@@ -573,6 +574,9 @@ def train(
                 writer.add_scalar(
                     "metrics/data_secs_per_batch", data_time.avg, global_step
                 )
+            
+            if global_step % args.print_freq == 0:
+                print(f'Epoch {epoch} - step {global_step}  - loss {losses.avg} - text ce loss: {ce_losses.avg} mask bce loss: {mask_bce_losses.avg} - mask dice loss: {mask_dice_losses.avg}')
 
         batch_time.reset()
         data_time.reset()

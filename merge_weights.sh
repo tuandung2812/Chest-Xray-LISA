@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES="" python3 merge_lora_weights_and_save_hf_model.py --version "microsoft/llava-med-v1.5-mistral-7b"  --weight="/home/user01/aiotlab/dung_paper/groundingLMM/LISAMed/runs/final_vindr_llavamed_bs_16_lr_5e-5/pytorch_model.bin"  --save_path="save_model/" --vision_pretrained="/home/user01/aiotlab/dung_paper/groundingLMM/LISAMed/runs/medsam.pth" 

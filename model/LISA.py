@@ -16,7 +16,7 @@ from utils.utils import (DEFAULT_IM_END_TOKEN, DEFAULT_IM_START_TOKEN,
 from .segment_anything import build_sam_vit_h , build_sam_vit_b
 from .llava.model.language_model.llava_mistral import (LlavaMistralForCausalLM,
                                                      LlavaMistralModel)
-from loss_fn import caculate_loss_att_fixed_cn
+# from loss_fn import caculate_loss_att_fixed_cn
 
 def dice_loss(
     inputs: torch.Tensor,

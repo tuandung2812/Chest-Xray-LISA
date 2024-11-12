@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hieu-pod-cvpr
+  namespace: aiml-liu-research # change to your namespace
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      volumes:
+        - name: shared-memory # This is to resolve the dataloader OOM issue.
+          emptyDir:
+            medium: Memory
+        - name: dataset-volume
+          persistentVolumeClaim:  
+            claimName: hieu-pvc-cvpr # your PVC name
+      containers:
+        - name: data-transfer-pvc
+          image: ubuntu:latest
+          stdin: true
+          tty: true
+          command: [ "/bin/sh", "-c" ]
+          args: 
+          - sleep 120d # this data transfer POD will automatically close itself after 1 day
+
+          resources:
+            limits:
+              memory: 4Gi
+              cpu: 1000m
+            requests:
+              memory: 4Gi
+              cpu: 1000m
+          volumeMounts:
+            - mountPath: /data2 # You PVC is mounted here as a folder attached to the data transfer POD
+              name: dataset-volume
+            - name: shared-memory
+              mountPath: /dev/shm
+

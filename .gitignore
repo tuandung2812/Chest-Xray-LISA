@@ -22,3 +22,5 @@ builds/
 /*.txt
 /install_flash.sh
 /check_cuda.sh
+drive/
+process_mimic/data/
