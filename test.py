@@ -5,6 +5,8 @@ from functools import partial
 import cv2
 import numpy as np
 import shutil
+from model.llava.mm_utils import tokenizer_image_token
+
 import torch
 import torch.nn.functional as F
 from transformers import AutoTokenizer, BitsAndBytesConfig, CLIPImageProcessor
