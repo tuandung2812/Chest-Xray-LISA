@@ -18,6 +18,7 @@ from model.llava.mm_utils import tokenizer_image_token
 from model.segment_anything.utils.transforms import ResizeLongestSide
 from utils.utils import (DEFAULT_IM_END_TOKEN, DEFAULT_IM_START_TOKEN,
                          DEFAULT_IMAGE_TOKEN, IMAGE_TOKEN_INDEX)
+from transformers import AutoTokenizer, BitsAndBytesConfig, CLIPImageProcessor
 
 def parse_args(args):
     parser = argparse.ArgumentParser(description="LISA chat")
