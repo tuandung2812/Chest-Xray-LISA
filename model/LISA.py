@@ -1,5 +1,5 @@
 from typing import List
-
+from .segment_anything import build_sam_vit_h , build_sam_vit_b
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
